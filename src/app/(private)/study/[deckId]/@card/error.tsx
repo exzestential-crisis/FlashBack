@@ -1,1 +1,1 @@
-"use error";
+"use client";

@@ -89,7 +89,7 @@ export default function SignupFormStep({
     >
       <div className="absolute top-5/12 slide-up flex flex-col w-1/4 items-center">
         <h2 className="text-center text-2xl font-bold mb-4">
-          Great! Let's set up your account!
+          Great! Let&apos;s set up your account!
         </h2>
 
         {/* Delayed Fade in Form */}

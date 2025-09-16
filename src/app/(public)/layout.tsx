@@ -1,4 +1,4 @@
-// src/app/signup/layout.tsx
+// src/app/auth/layout.tsx
 import React from "react";
 import Navbar from "@/components/layout/Navbar";
 

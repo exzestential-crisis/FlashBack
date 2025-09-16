@@ -1,13 +1,10 @@
 // src/app/page.tsx
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
 import { AnimatedButton, LightButton } from "@/components/ui";
 
-export default function Home() {
+export default function PublicHome() {
   return (
     <div className="relative">
-      <Navbar />
-
       {/* Body */}
       <div className="relative flex flex-col min-h-screen justify-center px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center items-center">
@@ -102,7 +99,8 @@ export default function Home() {
                 Review in minutes, retain for life.
               </h4>
               <h5 className="text-sm sm:text-base lg:text-lg text-zinc-600 dark:text-zinc-400">
-                Whether you've got 5 minutes or 50, Flashback helps you lock in
+                Whether you&apos;ve got 5 minutes or 50, Flashback helps you
+                lock in
                 <br className="hidden lg:block" />
                 knowledge with fast, focused review sessions.
               </h5>
