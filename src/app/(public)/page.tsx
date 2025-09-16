@@ -1,6 +1,6 @@
 import React from "react";
-import PublicHome from "./(public)/PublicHome";
-import PrivateHome from "./(private)/(dashboard)/(home)/PrivateHome";
+import PublicHome from "./PublicHome";
+import PrivateHome from "../(private)/(dashboard)/(home)/PrivateHome";
 
 const isLoggedIn = false; // change to false to test public homepage
 
