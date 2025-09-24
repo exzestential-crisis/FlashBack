@@ -1,6 +1,6 @@
 // colorUtils.ts
 
-// Color data from your database
+// Your database colors (these match Tailwind's 500 values)
 export const colorData = [
   { color_id: 1, name: "slate", hex_code: "#64748b" },
   { color_id: 2, name: "gray", hex_code: "#6b7280" },
@@ -26,6 +26,164 @@ export const colorData = [
   { color_id: 22, name: "rose", hex_code: "#f43f5e" },
 ];
 
+// Exact Tailwind color palettes
+export const tailwindColors = {
+  slate: {
+    300: "#cbd5e1",
+    400: "#94a3b8", 
+    500: "#64748b",
+    600: "#475569",
+    700: "#334155"
+  },
+  gray: {
+    300: "#d1d5db",
+    400: "#9ca3af",
+    500: "#6b7280", 
+    600: "#4b5563",
+    700: "#374151"
+  },
+  zinc: {
+    300: "#d4d4d8",
+    400: "#a1a1aa",
+    500: "#71717a",
+    600: "#52525b", 
+    700: "#3f3f46"
+  },
+  neutral: {
+    300: "#d4d4d4",
+    400: "#a3a3a3",
+    500: "#737373",
+    600: "#525252",
+    700: "#404040"
+  },
+  stone: {
+    300: "#d6d3d1",
+    400: "#a8a29e",
+    500: "#78716c",
+    600: "#57534e",
+    700: "#44403c"
+  },
+  red: {
+    300: "#fca5a5",
+    400: "#f87171",
+    500: "#ef4444",
+    600: "#dc2626",
+    700: "#b91c1c"
+  },
+  orange: {
+    300: "#fdba74",
+    400: "#fb923c",
+    500: "#f97316",
+    600: "#ea580c",
+    700: "#c2410c"
+  },
+  amber: {
+    300: "#fcd34d",
+    400: "#fbbf24",
+    500: "#f59e0b",
+    600: "#d97706",
+    700: "#b45309"
+  },
+  yellow: {
+    300: "#fde047",
+    400: "#facc15",
+    500: "#eab308",
+    600: "#ca8a04",
+    700: "#a16207"
+  },
+  lime: {
+    300: "#bef264",
+    400: "#a3e635",
+    500: "#84cc16",
+    600: "#65a30d",
+    700: "#4d7c0f"
+  },
+  green: {
+    300: "#86efac",
+    400: "#4ade80",
+    500: "#22c55e",
+    600: "#16a34a",
+    700: "#15803d"
+  },
+  emerald: {
+    300: "#6ee7b7",
+    400: "#34d399",
+    500: "#10b981",
+    600: "#059669",
+    700: "#047857"
+  },
+  teal: {
+    300: "#5eead4",
+    400: "#2dd4bf",
+    500: "#14b8a6",
+    600: "#0d9488",
+    700: "#0f766e"
+  },
+  cyan: {
+    300: "#67e8f9",
+    400: "#22d3ee",
+    500: "#06b6d4",
+    600: "#0891b2",
+    700: "#0e7490"
+  },
+  sky: {
+    300: "#7dd3fc",
+    400: "#38bdf8",
+    500: "#0ea5e9",
+    600: "#0284c7",
+    700: "#0369a1"
+  },
+  blue: {
+    300: "#93c5fd",
+    400: "#60a5fa",
+    500: "#3b82f6",
+    600: "#2563eb",
+    700: "#1d4ed8"
+  },
+  indigo: {
+    300: "#a5b4fc",
+    400: "#818cf8",
+    500: "#6366f1",
+    600: "#4f46e5",
+    700: "#4338ca"
+  },
+  violet: {
+    300: "#c4b5fd",
+    400: "#a78bfa",
+    500: "#8b5cf6",
+    600: "#7c3aed",
+    700: "#6d28d9"
+  },
+  purple: {
+    300: "#d8b4fe",
+    400: "#c084fc",
+    500: "#a855f7",
+    600: "#9333ea",
+    700: "#7e22ce"
+  },
+  fuchsia: {
+    300: "#f0abfc",
+    400: "#e879f9",
+    500: "#d946ef",
+    600: "#c026d3",
+    700: "#a21caf"
+  },
+  pink: {
+    300: "#f9a8d4",
+    400: "#f472b6",
+    500: "#ec4899",
+    600: "#db2777",
+    700: "#be185d"
+  },
+  rose: {
+    300: "#fda4af",
+    400: "#fb7185",
+    500: "#f43f5e",
+    600: "#e11d48",
+    700: "#be123c"
+  }
+};
+
 // Create lookup map for O(1) access
 export const colorLookup = colorData.reduce((acc, color) => {
   acc[color.color_id] = color;
@@ -33,7 +191,143 @@ export const colorLookup = colorData.reduce((acc, color) => {
   return acc;
 }, {} as Record<string | number, (typeof colorData)[0]>);
 
-// Utility to adjust color brightness
+// Get exact Tailwind color shades
+export function getColorShades(colorId: number | string) {
+  const color = colorLookup[colorId];
+  if (!color) return null;
+
+  const colorName = color.name as keyof typeof tailwindColors;
+  const tailwindShades = tailwindColors[colorName];
+
+  if (!tailwindShades) return null;
+
+  return {
+    name: color.name,
+    baseHex: color.hex_code,
+    shades: tailwindShades,
+    variants: {
+      light: tailwindShades[400],
+      base: tailwindShades[500], 
+      dark: tailwindShades[600],
+    },
+  };
+}
+
+// Get color variants using exact Tailwind colors
+export function getColorVariants(colorId: number | string) {
+  const color = colorLookup[colorId];
+  if (!color) {
+    // Fallback to amber if color not found
+    return {
+      light: tailwindColors.amber[400],
+      base: tailwindColors.amber[500],
+      dark: tailwindColors.amber[600],
+    };
+  }
+
+  const colorName = color.name as keyof typeof tailwindColors;
+  const shades = tailwindColors[colorName];
+
+  return {
+    light: shades[400],
+    base: shades[500],
+    dark: shades[600],
+  };
+}
+
+// CSS custom properties helper with exact Tailwind values
+export function getColorCSSVars(colorId: number | string) {
+  const colorShades = getColorShades(colorId);
+  if (!colorShades) return {};
+
+  return {
+    "--color-300": colorShades.shades[300],
+    "--color-400": colorShades.shades[400], 
+    "--color-500": colorShades.shades[500],
+    "--color-600": colorShades.shades[600],
+    "--color-700": colorShades.shades[700],
+  };
+}
+
+// Style objects helper with exact Tailwind colors
+export function getColorStyles(colorId: number | string) {
+  const colors = getColorVariants(colorId);
+
+  return {
+    backgroundLight: { backgroundColor: colors.light },
+    backgroundBase: { backgroundColor: colors.base },
+    backgroundDark: { backgroundColor: colors.dark },
+    textLight: { color: colors.light },
+    textBase: { color: colors.base },
+    textDark: { color: colors.dark },
+    borderLight: { borderColor: colors.light },
+    borderBase: { borderColor: colors.base },
+    borderDark: { borderColor: colors.dark },
+  };
+}
+
+// Get color by name or ID
+export function getColor(identifier: string | number) {
+  return colorLookup[identifier] || null;
+}
+
+// Get all available colors
+export function getAllColors() {
+  return colorData;
+}
+
+// Check if a color exists
+export function colorExists(colorId: number | string): boolean {
+  return colorId in colorLookup;
+}
+
+// Get random color
+export function getRandomColor() {
+  const randomIndex = Math.floor(Math.random() * colorData.length);
+  return colorData[randomIndex];
+}
+
+// Get all shades for a specific shade level across all colors
+export function getAllColorsAtShade(shade: 300 | 400 | 500 | 600 | 700) {
+  return colorData.map(color => ({
+    ...color,
+    hex_code: tailwindColors[color.name as keyof typeof tailwindColors][shade]
+  }));
+}
+
+// Get Tailwind class names for a color
+export function getTailwindClasses(colorId: number | string) {
+  const color = colorLookup[colorId];
+  if (!color) return null;
+
+  const name = color.name;
+  
+  return {
+    background: {
+      300: `bg-${name}-300`,
+      400: `bg-${name}-400`, 
+      500: `bg-${name}-500`,
+      600: `bg-${name}-600`,
+      700: `bg-${name}-700`,
+    },
+    text: {
+      300: `text-${name}-300`,
+      400: `text-${name}-400`,
+      500: `text-${name}-500`, 
+      600: `text-${name}-600`,
+      700: `text-${name}-700`,
+    },
+    border: {
+      300: `border-${name}-300`,
+      400: `border-${name}-400`,
+      500: `border-${name}-500`,
+      600: `border-${name}-600`, 
+      700: `border-${name}-700`,
+    }
+  };
+}
+
+// Legacy functions for backward compatibility
 export function adjustColorBrightness(hex: string, percent: number): string {
   const num = parseInt(hex.slice(1), 16);
   const r = Math.min(255, Math.max(0, (num >> 16) + percent));
@@ -43,7 +337,6 @@ export function adjustColorBrightness(hex: string, percent: number): string {
   return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
 }
 
-// Convert hex to HSL for more accurate color manipulation
 export function hexToHsl(hex: string): [number, number, number] {
   const r = parseInt(hex.slice(1, 3), 16) / 255;
   const g = parseInt(hex.slice(3, 5), 16) / 255;
@@ -75,7 +368,6 @@ export function hexToHsl(hex: string): [number, number, number] {
   return [h * 360, s * 100, l * 100];
 }
 
-// Convert HSL back to hex
 export function hslToHex(h: number, s: number, l: number): string {
   h /= 360;
   s /= 100;
@@ -120,109 +412,4 @@ export function hslToHex(h: number, s: number, l: number): string {
   return `#${r.toString(16).padStart(2, "0")}${g
     .toString(16)
     .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-}
-
-// Generate color shades using HSL for better color accuracy
-export function generateColorShades(baseHex: string) {
-  const [h, s, l] = hexToHsl(baseHex);
-
-  return {
-    300: hslToHex(h, s, Math.min(l + 25, 90)),
-    400: hslToHex(h, s, Math.min(l + 15, 85)),
-    500: baseHex, // This is your base color
-    600: hslToHex(h, s, Math.max(l - 15, 15)),
-    700: hslToHex(h, s, Math.max(l - 25, 10)),
-  };
-}
-
-// Get color variants for a given color ID (simplified version)
-export function getColorVariants(colorId: number | string) {
-  const color = colorLookup[colorId];
-  if (!color) {
-    // Fallback to amber if color not found
-    return {
-      light: "#fbbf24", // amber-400
-      base: "#f59e0b", // amber-500
-      dark: "#d97706", // amber-600
-    };
-  }
-
-  const baseHex = color.hex_code;
-
-  return {
-    light: adjustColorBrightness(baseHex, 40), // 400 equivalent
-    base: baseHex, // 500 equivalent
-    dark: adjustColorBrightness(baseHex, -30), // 600 equivalent
-  };
-}
-
-// Get comprehensive color variants with all shades
-export function getColorShades(colorId: number | string) {
-  const color = colorLookup[colorId];
-  if (!color) return null;
-
-  const shades = generateColorShades(color.hex_code);
-
-  return {
-    name: color.name,
-    baseHex: color.hex_code,
-    shades,
-    variants: {
-      light: shades[400],
-      base: shades[500],
-      dark: shades[600],
-    },
-  };
-}
-
-// Get color by name or ID
-export function getColor(identifier: string | number) {
-  return colorLookup[identifier] || null;
-}
-
-// Get all available colors
-export function getAllColors() {
-  return colorData;
-}
-
-// Check if a color exists
-export function colorExists(colorId: number | string): boolean {
-  return colorId in colorLookup;
-}
-
-// Get random color
-export function getRandomColor() {
-  const randomIndex = Math.floor(Math.random() * colorData.length);
-  return colorData[randomIndex];
-}
-
-// CSS custom properties helper
-export function getColorCSSVars(colorId: number | string) {
-  const colorShades = getColorShades(colorId);
-  if (!colorShades) return {};
-
-  return {
-    "--color-300": colorShades.shades[300],
-    "--color-400": colorShades.shades[400],
-    "--color-500": colorShades.shades[500],
-    "--color-600": colorShades.shades[600],
-    "--color-700": colorShades.shades[700],
-  };
-}
-
-// Style objects helper
-export function getColorStyles(colorId: number | string) {
-  const colors = getColorVariants(colorId);
-
-  return {
-    backgroundLight: { backgroundColor: colors.light },
-    backgroundBase: { backgroundColor: colors.base },
-    backgroundDark: { backgroundColor: colors.dark },
-    textLight: { color: colors.light },
-    textBase: { color: colors.base },
-    textDark: { color: colors.dark },
-    borderLight: { borderColor: colors.light },
-    borderBase: { borderColor: colors.base },
-    borderDark: { borderColor: colors.dark },
-  };
 }
