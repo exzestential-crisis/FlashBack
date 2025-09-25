@@ -48,14 +48,14 @@ export default function InterestsStep({
     <div
       className={`flex flex-col items-center min-h-screen w-full transition ${animationClass}`}
     >
-      <div className="absolute top-1/4">
+      <div className="absolute top-1/8 sm:top-1/4">
         <h2 className="text-center text-2xl font-bold">
           What are you interested in?
         </h2>
         <h3 className="text-center text-md text-zinc-500 mb-10">
           Choose atleast 1
         </h3>
-        <div className="grid grid-cols-4 gap-14 place-items-center mb-32">
+        <div className="grid grid-cols-4 gap-3 sm:gap-10 place-items-center mb-32">
           {interestItems.map((item) => {
             const isPressedStyle = form.interests.includes(item.name);
 
@@ -65,7 +65,8 @@ export default function InterestsStep({
                 onClick={() => toggleInterest(item.name)}
                 className={`
                     flex flex-col items-center
-                    w-32 h-32 pt-6 rounded-lg
+                    w-28 h-30 sm:w-36 sm:h-36 
+                    pt-4 sm:pt-6 rounded-lg
                     text-sm text-slate-900 dark:text-white
                     focus:outline-none focus:ring-0
 
@@ -89,7 +90,7 @@ export default function InterestsStep({
                 <img
                   src={item.imgSrc}
                   alt={item.name}
-                  className="w-14 mx-auto pb-1"
+                  className="w-16 mx-auto pb-1"
                 />
                 <span>{item.name}</span>
               </button>

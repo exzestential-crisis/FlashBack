@@ -32,18 +32,18 @@ export default function UserTypeStep({
     <div
       className={`flex flex-col items-center min-h-screen w-full transition ${animationClass}`}
     >
-      <div className="absolute top-1/4">
+      <div className="absolute top-1/8 sm:top-1/4">
         <h2 className="text-center text-2xl font-bold mb-10">I am a ...</h2>
 
         {/* User type mapping */}
-        <div className="grid grid-cols-3 gap-20">
+        <div className="grid sm:grid-cols-3 gap-10 **:sm:gap-20">
           {userType.map((type) => (
             <button
               key={type.name}
               onClick={() => onFormChange("user_type", type.name)}
               className={`
                 flex flex-col items-center
-                w-60 pt-10 pb-8 rounded-lg
+                w-60 h-46 sm:w-60 pt-4 sm:pt-10 pb-8 rounded-lg
                 text-sm text-slate-900 dark:text-white
                 focus:outline-none focus:ring-0
                 
@@ -70,7 +70,11 @@ export default function UserTypeStep({
                 }
               `}
             >
-              <img src={type.imgSrc} alt={type.name} className="pb-3 h-40 " />
+              <img
+                src={type.imgSrc}
+                alt={type.name}
+                className="pb-3 h-30 sm:h-40 "
+              />
               <span className="text-xl">{type.name}</span>
             </button>
           ))}

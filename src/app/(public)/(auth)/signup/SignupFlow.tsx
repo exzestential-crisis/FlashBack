@@ -127,7 +127,7 @@ export default function SignupFlow() {
     <>
       {/* Back Button */}
 
-      <div className="absolute lg:top-30 lg:left-40">
+      <div className="absolute top-28 left-5 lg:top-30 lg:left-40">
         <button
           onClick={() => goToStep(step - 1)}
           disabled={animating}
@@ -164,16 +164,28 @@ export default function SignupFlow() {
         />
       )}
 
-      {/* Continue Button */}
+      {/* Continue Button with Mobile Bar */}
       {showContinueButton && (
-        <div className={`fixed bottom-20 right-20 ${fadeNextClass}`}>
-          <AnimatedButton
-            text="Continue"
-            onClick={() => goToStep(step + 1)}
-            disabled={animating || !canContinue()}
-            style="px-14 py-4"
-            textSize="text-xl"
-          />
+        <div className={`${fadeNextClass}`}>
+          {/* Mobile Bar - spans full width on mobile, hidden on desktop */}
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-zinc-900 p-4 z-20">
+            <AnimatedButton
+              text="Continue"
+              onClick={() => goToStep(step + 1)}
+              disabled={animating || !canContinue()}
+              style="w-full py-4"
+            />
+          </div>
+
+          {/* Desktop Button - positioned as before, only visible on desktop */}
+          <div className="hidden lg:block fixed bottom-20 right-20">
+            <AnimatedButton
+              text="Continue"
+              onClick={() => goToStep(step + 1)}
+              disabled={animating || !canContinue()}
+              style="px-14 py-4"
+            />
+          </div>
         </div>
       )}
     </>

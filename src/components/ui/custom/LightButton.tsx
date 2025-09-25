@@ -62,6 +62,9 @@ export default function LightButton({
                     cursor-pointer
                     flex items-center justify-center
                     p-2.5 rounded-lg
+                    text-lg      
+                    sm:text-sm
+                    lg:text-base
 
                     ${variantClass}
                 `}

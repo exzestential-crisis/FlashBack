@@ -100,8 +100,32 @@ body {
     opacity: 1;
   }
 }
+
+/* Mobile-specific slide animation with less upward movement */
+@keyframes slide-up-mobile {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px);
+    opacity: 1;
+  }
+}
+
 .slide-up {
   animation: slide-up 1.5s ease-out forwards;
+}
+
+/* Apply mobile-specific animation on small screens */
+@media (max-width: 640px) {
+  .slide-up {
+    animation: slide-up-mobile 1.5s ease-out forwards;
+  }
 }
 
 @keyframes slide-out-right {

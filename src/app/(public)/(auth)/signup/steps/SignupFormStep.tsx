@@ -102,9 +102,9 @@ export default function SignupFormStep({
         <h2
           className="
             text-center 
-            text-xl sm:text-2xl lg:text-3xl 
+            text-2xl sm:text-2xl lg:text-3xl 
             font-bold 
-            mb-4 sm:mb-6 lg:mb-8
+            mb-6 sm:mb-6 lg:mb-8
             px-4 sm:px-0"
         >
           Great!
@@ -121,7 +121,7 @@ export default function SignupFormStep({
         >
           {/* Form */}
           <form onKeyDown={handleKeyPress} className="w-full">
-            <div className="flex flex-col space-y-3 sm:space-y-4">
+            <div className="flex flex-col space-y-4 sm:space-y-4">
               <Input
                 type="email"
                 value={form.email}
@@ -135,7 +135,7 @@ export default function SignupFormStep({
               {form.email &&
                 (!emailRequirementsMet.hasAtSymbol ||
                   !emailRequirementsMet.validDomain) && (
-                  <p className="text-xs sm:text-sm text-rose-500 -mt-1 px-1">
+                  <p className="text-sm sm:text-sm text-rose-500 -mt-1 px-1">
                     Please enter a valid email address
                   </p>
                 )}
@@ -167,7 +167,7 @@ export default function SignupFormStep({
                   !passwordRequirementsMet.number) && (
                   <div className="flex flex-col space-y-1 -mt-1 px-1">
                     <p
-                      className={`text-xs sm:text-sm ${
+                      className={`text-sm sm:text-sm ${
                         passwordRequirementsMet.length
                           ? "text-green-400"
                           : "text-rose-500"
@@ -176,7 +176,7 @@ export default function SignupFormStep({
                       At least 8 characters
                     </p>
                     <p
-                      className={`text-xs sm:text-sm ${
+                      className={`text-sm sm:text-sm ${
                         passwordRequirementsMet.uppercase
                           ? "text-green-400"
                           : "text-rose-500"
@@ -185,7 +185,7 @@ export default function SignupFormStep({
                       At least 1 uppercase character
                     </p>
                     <p
-                      className={`text-xs sm:text-sm ${
+                      className={`text-sm sm:text-sm ${
                         passwordRequirementsMet.lowercase
                           ? "text-green-400"
                           : "text-rose-500"
@@ -194,7 +194,7 @@ export default function SignupFormStep({
                       At least 1 lowercase character
                     </p>
                     <p
-                      className={`text-xs sm:text-sm ${
+                      className={`text-sm sm:text-sm ${
                         passwordRequirementsMet.number
                           ? "text-green-400"
                           : "text-rose-500"
@@ -218,26 +218,26 @@ export default function SignupFormStep({
               <div
                 className="
                 grid grid-cols-7 items-center gap-2 sm:gap-4 
-                  py-4 sm:py-6 
+                  py-6 sm:py-6 
                   dark:text-zinc-400"
               >
                 <hr className="col-span-3" />
-                <p className="text-center text-sm sm:text-base">or</p>
+                <p className="text-center text-base sm:text-base">or</p>
                 <hr className="col-span-3" />
               </div>
 
               {/* Social login buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="grid grid-cols-2 gap-4 sm:gap-4">
                 <LightButton
                   text="Facebook"
                   img={Facebook}
-                  imgClass="h-4 sm:h-5 rounded-full me-2"
+                  imgClass="h-5 sm:h-5 rounded-full me-2"
                   fullWidth
                 />
                 <LightButton
                   text="Google"
                   img={Google}
-                  imgClass="h-4 sm:h-5 rounded-full me-2"
+                  imgClass="h-5 sm:h-5 rounded-full me-2"
                   fullWidth
                 />
               </div>
@@ -246,16 +246,16 @@ export default function SignupFormStep({
             {/* Terms and privacy */}
             <div
               className="
-                flex flex-col gap-3 sm:gap-4 text-center 
-                mt-6 sm:mt-8 
+                flex flex-col gap-4 sm:gap-4 text-center 
+                mt-8 sm:mt-8 
                 text-black/40 dark:text-zinc-400
                 px-2 sm:px-0"
             >
-              <p className="text-xs sm:text-sm leading-relaxed">
+              <p className="text-sm sm:text-sm leading-relaxed">
                 By signing in to FlashBack, you agree to our Terms and Privacy
                 Policy.
               </p>
-              <p className="text-xs sm:text-sm leading-relaxed">
+              <p className="text-sm sm:text-sm leading-relaxed">
                 This site is protected by reCAPTCHA Enterprise and the Google
                 Privacy Policy and Terms of Service apply.
               </p>
