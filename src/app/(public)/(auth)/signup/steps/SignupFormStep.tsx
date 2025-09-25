@@ -93,7 +93,7 @@ export default function SignupFormStep({
     >
       <div
         className="
-          absolute top-1/2 sm:top-5/12 -translate-y-1/2 sm:translate-y-0 
+          absolute top-5/9 sm:top-5/12 -translate-y-1/2 sm:translate-y-0 
           slide-up flex flex-col 
           w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4
           max-w-md 
@@ -102,7 +102,7 @@ export default function SignupFormStep({
         <h2
           className="
             text-center 
-            text-2xl sm:text-2xl lg:text-3xl 
+            text-md sm:text-2xl lg:text-3xl 
             font-bold 
             mb-6 sm:mb-6 lg:mb-8
             px-4 sm:px-0"
@@ -116,7 +116,7 @@ export default function SignupFormStep({
         <div
           className="
             fade-in-delayed 
-            w-full sm:w-4/5 lg:w-full
+            max-w-xs lg:w-full
             px-2 sm:px-0"
         >
           {/* Form */}
@@ -251,11 +251,11 @@ export default function SignupFormStep({
                 text-black/40 dark:text-zinc-400
                 px-2 sm:px-0"
             >
-              <p className="text-sm sm:text-sm leading-relaxed">
+              <p className="text-xs sm:text-sm leading-relaxed">
                 By signing in to FlashBack, you agree to our Terms and Privacy
                 Policy.
               </p>
-              <p className="text-sm sm:text-sm leading-relaxed">
+              <p className="text-xs sm:text-sm leading-relaxed">
                 This site is protected by reCAPTCHA Enterprise and the Google
                 Privacy Policy and Terms of Service apply.
               </p>

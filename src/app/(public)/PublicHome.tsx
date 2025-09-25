@@ -1,6 +1,13 @@
 // src/app/page.tsx
+"use client";
 import Link from "next/link";
+import Lottie from "lottie-react";
+import WelcomeAnimation from "@/components/animations/Welcome.json";
 import { AnimatedButton, LightButton } from "@/components/ui";
+import Footer from "@/components/layout/Footer";
+import Brain from "@/components/animations/Brain";
+import Clock from "@/components/animations/Clock";
+import Access from "@/components/animations/Access";
 
 export default function PublicHome() {
   return (
@@ -11,11 +18,14 @@ export default function PublicHome() {
           <div className="flex flex-col lg:grid lg:grid-cols-3 w-full max-w-6xl">
             {/* Mascot */}
             <div className="lg:col-span-2 flex justify-center lg:justify-start lg:ps-10 mb-8 lg:mb-0">
-              <img
-                src="http://placehold.co/500"
-                alt="Mascot"
-                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[500px] lg:h-[500px] object-contain"
-              />
+              <div className="w-80 h-80 lg:w-[650px] lg:h-[650px]">
+                <Lottie
+                  animationData={WelcomeAnimation}
+                  loop
+                  autoplay
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
 
             {/* Introduction */}
@@ -71,11 +81,7 @@ export default function PublicHome() {
         {/* Study Smarter */}
         <div className="flex flex-col lg:grid lg:grid-cols-5 py-10 sm:py-16 lg:py-20 max-w-6xl mx-auto">
           <div className="lg:col-span-2 flex justify-center lg:justify-end mb-6 lg:mb-0">
-            <img
-              src="http://placehold.co/500"
-              alt="Brain"
-              className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[500px] lg:h-[500px] object-contain"
-            />
+            <Brain />
           </div>
           <div className="lg:col-span-3 h-full flex items-center justify-center">
             <div className="text-center lg:text-left">
@@ -107,22 +113,14 @@ export default function PublicHome() {
             </div>
           </div>
           <div className="lg:col-span-2 flex justify-center lg:justify-start">
-            <img
-              src="http://placehold.co/500"
-              alt="Clock"
-              className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[500px] lg:h-[500px] object-contain"
-            />
+            <Clock />
           </div>
         </div>
 
         {/* Access Anywhere */}
         <div className="flex flex-col lg:grid lg:grid-cols-5 py-10 sm:py-16 lg:py-20 max-w-6xl mx-auto">
           <div className="lg:col-span-2 flex justify-center lg:justify-end mb-6 lg:mb-0">
-            <img
-              src="http://placehold.co/500"
-              alt="Access"
-              className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[500px] lg:h-[500px] object-contain"
-            />
+            <Access />
           </div>
           <div className="lg:col-span-3 h-full flex items-center justify-center">
             <div className="text-center lg:text-left">
@@ -138,6 +136,7 @@ export default function PublicHome() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

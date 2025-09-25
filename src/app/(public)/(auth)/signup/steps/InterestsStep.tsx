@@ -15,7 +15,7 @@ const interestItems = [
   { name: "Medicine", imgSrc: "icons/signup/interests/medicine.png" },
   { name: "Geography", imgSrc: "icons/signup/interests/geography.png" },
   { name: "English", imgSrc: "icons/signup/interests/english.png" },
-  { name: "Programming", imgSrc: "icons/signup/interests/programming.png" },
+  { name: "Coding", imgSrc: "icons/signup/interests/programming.png" },
   { name: "Art", imgSrc: "icons/signup/interests/art.png" },
   { name: "Music", imgSrc: "icons/signup/interests/music.png" },
   { name: "Languages", imgSrc: "icons/signup/interests/language.png" },
@@ -48,11 +48,11 @@ export default function InterestsStep({
     <div
       className={`flex flex-col items-center min-h-screen w-full transition ${animationClass}`}
     >
-      <div className="absolute top-1/8 sm:top-1/4">
-        <h2 className="text-center text-2xl font-bold">
+      <div className="absolute top-1/7 sm:top-1/4">
+        <h2 className="text-center text-md sm:text-2xl font-bold">
           What are you interested in?
         </h2>
-        <h3 className="text-center text-md text-zinc-500 mb-10">
+        <h3 className="text-center text-xs sm:text-md text-zinc-500 mb-3 md:mb-10">
           Choose atleast 1
         </h3>
         <div className="grid grid-cols-4 gap-3 sm:gap-10 place-items-center mb-32">
@@ -65,9 +65,9 @@ export default function InterestsStep({
                 onClick={() => toggleInterest(item.name)}
                 className={`
                     flex flex-col items-center
-                    w-28 h-30 sm:w-36 sm:h-36 
-                    pt-4 sm:pt-6 rounded-lg
-                    text-sm text-slate-900 dark:text-white
+                    w-19 h-22 sm:w-36 sm:h-36 
+                    pt-3 sm:pt-5 rounded-lg
+                    text-slate-900 dark:text-white
                     focus:outline-none focus:ring-0
 
                     transition-transform
@@ -90,9 +90,9 @@ export default function InterestsStep({
                 <img
                   src={item.imgSrc}
                   alt={item.name}
-                  className="w-16 mx-auto pb-1"
+                  className="w-10 sm:w-20 pb-1"
                 />
-                <span>{item.name}</span>
+                <span className="text-[11px] sm:text-base">{item.name}</span>
               </button>
             );
           })}

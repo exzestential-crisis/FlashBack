@@ -7,6 +7,7 @@ type AnimmatedButtonProps = {
   disabled?: boolean;
   fullWidth?: boolean;
   style?: string;
+  textSize?: string;
   img?: string;
   imgClass?: string;
 };
@@ -18,7 +19,7 @@ export default function AnimatedButton({
   disabled = false,
   fullWidth = false,
   style = "",
-
+  textSize = "text-md",
   img = "",
   imgClass = "",
 }: AnimmatedButtonProps) {
@@ -38,11 +39,7 @@ export default function AnimatedButton({
             cursor-pointer
             flex items-center justify-center
             p-2.5 gap-4 rounded-xl
-            text-white font-medium
-
-            px-3 py-2.5 text-lg      
-            sm:px-3 sm:py-3 sm:text-sm
-            lg:px-4 lg:py-3 lg:text-base
+            text-white ${textSize} font-medium
             bg-brand
             shadow-[0_4px_0_theme('colors.brand.dark')] 
 

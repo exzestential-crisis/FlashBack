@@ -42,6 +42,18 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Mobile hides scrollbar completely */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Edge */
+  }
+
+  * {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 /* Dark mode scrollbar */
 @media (prefers-color-scheme: dark) {
   ::-webkit-scrollbar-thumb {
@@ -112,7 +124,7 @@ body {
     opacity: 1;
   }
   100% {
-    transform: translateY(-80px);
+    transform: translateY(-60px);
     opacity: 1;
   }
 }

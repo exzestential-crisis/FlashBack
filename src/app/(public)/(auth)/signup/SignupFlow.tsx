@@ -127,7 +127,7 @@ export default function SignupFlow() {
     <>
       {/* Back Button */}
 
-      <div className="absolute top-28 left-5 lg:top-30 lg:left-40">
+      <div className="absolute top-16 left-2 lg:top-30 lg:left-40">
         <button
           onClick={() => goToStep(step - 1)}
           disabled={animating}
@@ -173,7 +173,7 @@ export default function SignupFlow() {
               text="Continue"
               onClick={() => goToStep(step + 1)}
               disabled={animating || !canContinue()}
-              style="w-full py-4"
+              style="w-full py-2"
             />
           </div>
 

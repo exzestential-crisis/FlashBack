@@ -34,11 +34,10 @@ export default function Input({
   };
 
   // Base styles with proper mobile-first responsive design
-  // Base styles with proper mobile-first responsive design
   const baseStyles = `
     w-full
-    px-3 py-2.5 text-lg      
-    sm:px-3 sm:py-3 sm:text-sm
+    px-3 py-2.5 text-sm
+    sm:px-3 sm:py-3 sm:text-base
     lg:px-4 lg:py-3 lg:text-base
     rounded-lg sm:rounded-xl
     focus:outline-none focus:ring-2 

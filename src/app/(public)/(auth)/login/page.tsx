@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-// import LoginForm from "./LoginForm";
+import LoginForm from "./LoginForm";
 
 export const metadata: Metadata = {
   title: "Login - FlashBack",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  //   return <LoginForm />;
+  return <LoginForm />;
 }
