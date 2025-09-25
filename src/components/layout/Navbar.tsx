@@ -6,11 +6,7 @@ export default function Navbar() {
       <div className="grid grid-cols-2 py-3 px-6">
         <Link href="/" className="flex items-center">
           <div className="flex items-center cursor-pointer">
-            <img
-              src="http://placehold.co/100"
-              alt="FlashBack"
-              className="pe-5 w-20"
-            />
+            <img src="/logo.svg" alt="FlashBack" className="pe-5 w-20" />
             <h1 className="lg:text-2xl font-semibold text-zinc-700 dark:text-zinc-200">
               FlashBack
             </h1>

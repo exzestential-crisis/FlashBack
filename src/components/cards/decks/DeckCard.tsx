@@ -3,42 +3,38 @@
 import { useState } from "react";
 import { getColorVariants } from "@/utils/colorUtils";
 import { KebabMenu } from "@/components/ui";
+import type { DeckWithMeta } from "@/db/types"; // adjust import path
 
-type DeckType = {
-  id: string;
-  name: string;
-  description: string;
-  folderName: string;
-  cardCount: number;
-  colorId: number;
-  onEdit?: (deck: DeckType) => void;
-  onDelete?: (deck: DeckType) => void;
+type DeckProps = DeckWithMeta & {
+  onEdit?: (deck: DeckWithMeta) => void;
+  onDelete?: (deck: DeckWithMeta) => void;
 };
 
 export default function Deck({
-  id,
+  deckId,
   name,
   description,
   folderName,
+  folderColor,
   cardCount,
-  colorId,
   onEdit,
   onDelete,
-}: DeckType) {
-  // ui
+  ...rest
+}: DeckProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Get dynamic colors from utils
-  const colors = getColorVariants(colorId);
+  // Dynamic colors - handle null/undefined folderColor with fallback
+  const colors = getColorVariants(folderColor || 8); // fallback to amber (color_id: 8)
 
-  // Create deck object for callbacks
-  const deckData: DeckType = {
-    id,
+  // Pass full deck back in callbacks
+  const deckData: DeckWithMeta = {
+    deckId,
     name,
     description,
     folderName,
+    folderColor,
     cardCount,
-    colorId,
+    ...rest, // keeps all the other fields from Deck
   };
 
   return (
@@ -71,11 +67,11 @@ export default function Deck({
       {/* Content overlay */}
       <div
         className="
-        absolute bottom-0 z-30
-        bg-white dark:bg-zinc-700 
-        h-2/3 w-full rounded-b-xl
-        transition-all duration-200
-      "
+          absolute bottom-0 z-30
+          bg-white dark:bg-zinc-700 
+          h-2/3 w-full rounded-b-xl
+          transition-all duration-200
+        "
         style={{
           transform: isHovered ? "translateY(3px)" : "translateY(0)",
         }}

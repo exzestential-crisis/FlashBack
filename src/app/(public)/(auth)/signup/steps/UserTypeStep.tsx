@@ -11,15 +11,15 @@ interface UserTypeStepProps {
 const userType = [
   {
     name: "Teacher",
-    imgSrc: "http://placehold.co/100",
+    imgSrc: "icons/signup/usertype/teacher.png",
   },
   {
     name: "Student",
-    imgSrc: "http://placehold.co/100",
+    imgSrc: "icons/signup/usertype/student.png",
   },
   {
     name: "Other",
-    imgSrc: "http://placehold.co/100",
+    imgSrc: "icons/signup/usertype/man.png",
   },
 ];
 
@@ -43,7 +43,7 @@ export default function UserTypeStep({
               onClick={() => onFormChange("user_type", type.name)}
               className={`
                 flex flex-col items-center
-                w-52 pt-10 pb-8 rounded-lg
+                w-60 pt-10 pb-8 rounded-lg
                 text-sm text-slate-900 dark:text-white
                 focus:outline-none focus:ring-0
                 
@@ -70,8 +70,8 @@ export default function UserTypeStep({
                 }
               `}
             >
-              <img src={type.imgSrc} alt={type.name} className="pb-3" />
-              <span>{type.name}</span>
+              <img src={type.imgSrc} alt={type.name} className="pb-3 h-40 " />
+              <span className="text-xl">{type.name}</span>
             </button>
           ))}
         </div>

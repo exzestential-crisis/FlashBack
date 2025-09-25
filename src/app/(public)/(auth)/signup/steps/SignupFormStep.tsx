@@ -85,25 +85,49 @@ export default function SignupFormStep({
 
   return (
     <div
-      className={`relative flex flex-col items-center min-h-screen w-full pt-40 transition ${animationClass} overflow-hidden`}
+      className={`
+        relative flex flex-col items-center min-h-screen w-full 
+        px-4 sm:px-6 md:px-8 lg:px-0
+        pt-8 sm:pt-16 md:pt-24 lg:pt-40 
+        transition ${animationClass} overflow-hidden`}
     >
-      <div className="absolute top-5/12 slide-up flex flex-col w-1/4 items-center">
-        <h2 className="text-center text-2xl font-bold mb-4">
-          Great! Let&apos;s set up your account!
+      <div
+        className="
+          absolute top-1/2 sm:top-5/12 -translate-y-1/2 sm:translate-y-0 
+          slide-up flex flex-col 
+          w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4
+          max-w-md 
+          items-center"
+      >
+        <h2
+          className="
+            text-center 
+            text-xl sm:text-2xl lg:text-3xl 
+            font-bold 
+            mb-4 sm:mb-6 lg:mb-8
+            px-4 sm:px-0"
+        >
+          Great!
+          <br />
+          Let&apos;s set up your account!
         </h2>
 
         {/* Delayed Fade in Form */}
-        <div className="fade-in-delayed w-4/5">
+        <div
+          className="
+            fade-in-delayed 
+            w-full sm:w-4/5 lg:w-full
+            px-2 sm:px-0"
+        >
           {/* Form */}
           <form onKeyDown={handleKeyPress} className="w-full">
-            <div className="flex flex-col">
+            <div className="flex flex-col space-y-3 sm:space-y-4">
               <Input
                 type="email"
                 value={form.email}
                 onChange={handleEmailChange}
                 placeholder="Email"
                 variant="plain"
-                className="lg:mt-4"
                 required
               />
 
@@ -111,7 +135,7 @@ export default function SignupFormStep({
               {form.email &&
                 (!emailRequirementsMet.hasAtSymbol ||
                   !emailRequirementsMet.validDomain) && (
-                  <p className="text-sm text-rose-500 lg:mt-2">
+                  <p className="text-xs sm:text-sm text-rose-500 -mt-1 px-1">
                     Please enter a valid email address
                   </p>
                 )}
@@ -122,7 +146,6 @@ export default function SignupFormStep({
                 onChange={(e) => onFormChange("username", e.target.value)}
                 placeholder="Username"
                 variant="plain"
-                className="lg:mt-4"
                 required
               />
 
@@ -132,7 +155,6 @@ export default function SignupFormStep({
                 onChange={handlePasswordChange}
                 placeholder="Password"
                 variant="plain"
-                className="lg:mt-4"
                 showPasswordToggle
                 required
               />
@@ -143,9 +165,9 @@ export default function SignupFormStep({
                   !passwordRequirementsMet.uppercase ||
                   !passwordRequirementsMet.lowercase ||
                   !passwordRequirementsMet.number) && (
-                  <div className="flex flex-col lg:mt-2">
+                  <div className="flex flex-col space-y-1 -mt-1 px-1">
                     <p
-                      className={`text-sm ${
+                      className={`text-xs sm:text-sm ${
                         passwordRequirementsMet.length
                           ? "text-green-400"
                           : "text-rose-500"
@@ -154,7 +176,7 @@ export default function SignupFormStep({
                       At least 8 characters
                     </p>
                     <p
-                      className={`text-sm ${
+                      className={`text-xs sm:text-sm ${
                         passwordRequirementsMet.uppercase
                           ? "text-green-400"
                           : "text-rose-500"
@@ -163,7 +185,7 @@ export default function SignupFormStep({
                       At least 1 uppercase character
                     </p>
                     <p
-                      className={`text-sm ${
+                      className={`text-xs sm:text-sm ${
                         passwordRequirementsMet.lowercase
                           ? "text-green-400"
                           : "text-rose-500"
@@ -172,7 +194,7 @@ export default function SignupFormStep({
                       At least 1 lowercase character
                     </p>
                     <p
-                      className={`text-sm ${
+                      className={`text-xs sm:text-sm ${
                         passwordRequirementsMet.number
                           ? "text-green-400"
                           : "text-rose-500"
@@ -185,43 +207,55 @@ export default function SignupFormStep({
 
               <AnimatedButton
                 text="Signup"
-                style="mt-4"
                 onClick={onSubmit}
                 disabled={!isFormComplete || isLoading}
                 fullWidth
               />
             </div>
 
-            {/* Api log in */}
+            {/* Social login divider */}
             <div>
-              <div className="grid grid-cols-7 items-center gap-4 py-4 dark:text-zinc-400">
+              <div
+                className="
+                grid grid-cols-7 items-center gap-2 sm:gap-4 
+                  py-4 sm:py-6 
+                  dark:text-zinc-400"
+              >
                 <hr className="col-span-3" />
-                <p className="text-center">or</p>
+                <p className="text-center text-sm sm:text-base">or</p>
                 <hr className="col-span-3" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              {/* Social login buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <LightButton
                   text="Facebook"
                   img={Facebook}
-                  imgClass="h-5 rounded-full me-2"
+                  imgClass="h-4 sm:h-5 rounded-full me-2"
                   fullWidth
                 />
                 <LightButton
                   text="Google"
                   img={Google}
-                  imgClass="h-5 rounded-full me-2"
+                  imgClass="h-4 sm:h-5 rounded-full me-2"
                   fullWidth
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 text-center mt-8 text-black/40 dark:text-zinc-400">
-              <p>
+            {/* Terms and privacy */}
+            <div
+              className="
+                flex flex-col gap-3 sm:gap-4 text-center 
+                mt-6 sm:mt-8 
+                text-black/40 dark:text-zinc-400
+                px-2 sm:px-0"
+            >
+              <p className="text-xs sm:text-sm leading-relaxed">
                 By signing in to FlashBack, you agree to our Terms and Privacy
                 Policy.
               </p>
-              <p>
+              <p className="text-xs sm:text-sm leading-relaxed">
                 This site is protected by reCAPTCHA Enterprise and the Google
                 Privacy Policy and Terms of Service apply.
               </p>

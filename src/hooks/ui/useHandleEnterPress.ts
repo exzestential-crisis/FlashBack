@@ -1,19 +1,24 @@
-// hooks/useHandleEnterPress.ts
-import { KeyboardEvent } from "react";
+import { KeyboardEvent, RefObject } from "react";
 
-type UseHandleEnterPressOptions = {
-  onSubmit: () => void | Promise<void>; // Keep original signature
+type UseHandleEnterPressOptions<T extends HTMLElement = HTMLElement> = {
+  onSubmit: () => void | Promise<void>;
+  nextRef?: RefObject<T | null>; // Allow null in the ref type
   enableWhen?: boolean;
 };
 
-export function useHandleEnterPress({
+export function useHandleEnterPress<T extends HTMLElement = HTMLElement>({
   onSubmit,
+  nextRef,
   enableWhen = true,
-}: UseHandleEnterPressOptions) {
+}: UseHandleEnterPressOptions<T>) {
   const handleKeyPress = (e: KeyboardEvent) => {
     if (enableWhen && e.key === "Enter") {
       e.preventDefault();
-      onSubmit(); // Call without parameters
+      if (nextRef?.current) {
+        nextRef.current.focus();
+      } else {
+        onSubmit();
+      }
     }
   };
 

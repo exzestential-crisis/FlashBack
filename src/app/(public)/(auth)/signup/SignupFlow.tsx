@@ -126,17 +126,16 @@ export default function SignupFlow() {
   return (
     <>
       {/* Back Button */}
-      {step > 0 && (
-        <div className="absolute lg:top-30 lg:left-40">
-          <button
-            onClick={() => goToStep(step - 1)}
-            disabled={animating}
-            className="fixed z-10"
-          >
-            <ArrowBack />
-          </button>
-        </div>
-      )}
+
+      <div className="absolute lg:top-30 lg:left-40">
+        <button
+          onClick={() => goToStep(step - 1)}
+          disabled={animating}
+          className="fixed z-10"
+        >
+          {step > 0 ? <ArrowBack /> : <ArrowBack defaultBack />}
+        </button>
+      </div>
 
       {/* Step Components */}
       {step === 0 && (

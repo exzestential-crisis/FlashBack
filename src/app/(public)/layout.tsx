@@ -1,4 +1,5 @@
 // src/app/auth/layout.tsx
+import { Metadata } from "next";
 import React from "react";
 import Navbar from "@/components/layout/Navbar";
 
