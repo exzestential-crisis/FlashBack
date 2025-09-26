@@ -122,9 +122,14 @@ export default function SignupComplete() {
 
         // Redirect to home
         router.push("/");
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("OAuth completion error:", error);
-        setError(error.message || "Failed to complete signup");
+
+        // Safely extract the message
+        const message =
+          error instanceof Error ? error.message : "Failed to complete signup";
+
+        setError(message);
       } finally {
         setIsProcessing(false);
       }

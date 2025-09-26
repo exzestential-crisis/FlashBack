@@ -154,12 +154,14 @@ export default function SignupFlow() {
 
       // Redirect to home page
       router.push("/");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Signup error:", err);
-      addNotification(
-        err.message || "An unexpected error occurred during signup.",
-        "error"
-      );
+      const message =
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred during signup.";
+
+      addNotification(message, "error");
     } finally {
       hideLoading();
     }

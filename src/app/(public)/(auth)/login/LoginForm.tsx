@@ -14,9 +14,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   const handleSubmit = async () => {
