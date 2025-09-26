@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@/stores/notification";
 import { useLoadingStore } from "@/stores/loading";
+import { supabase } from "@/utils/supabase/client";
 
 import { AnimatedButton, ArrowBack } from "@/components/ui";
 
@@ -21,7 +22,7 @@ export type FormData = {
 
 export default function SignupFlow() {
   const router = useRouter();
-  const { add: addNotification } = useNotifications(); // use the store method
+  const { add: addNotification } = useNotifications();
   const { isLoading, showLoading, hideLoading } = useLoadingStore();
 
   // Form data
@@ -73,6 +74,33 @@ export default function SignupFlow() {
     }
   }, [step]);
 
+  // Store form data in localStorage for OAuth persistence
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      (form.user_type || form.interests.length)
+    ) {
+      localStorage.setItem(
+        "signupFormData",
+        JSON.stringify({
+          user_type: form.user_type,
+          interests: form.interests,
+        })
+      );
+    }
+  }, [form.user_type, form.interests]);
+
+  // Load form data from localStorage on component mount (for returning OAuth users)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("signupFormData");
+      if (savedData && !form.user_type && !form.interests.length) {
+        const parsed = JSON.parse(savedData);
+        setForm((prev) => ({ ...prev, ...parsed }));
+      }
+    }
+  }, []);
+
   const canContinue = () => {
     if (step === 0) {
       return form.user_type !== "";
@@ -86,38 +114,52 @@ export default function SignupFlow() {
     showLoading();
 
     try {
-      const signupData = {
-        username: form.username,
+      // Sign up with Supabase Auth
+      const { data, error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
-        user_type: form.user_type,
-        interests: form.interests,
-        timestamp: Date.now(),
-      };
-
-      sessionStorage.setItem("pendingSignup", JSON.stringify(signupData));
-
-      const response = await fetch("/api/auth/send-verification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: form.email, username: form.username }),
       });
 
-      const data = await response.json();
+      if (error) throw error;
 
-      if (response.ok) {
-        router.push("/verification");
-      } else {
+      // Use API route to create user profile
+      if (data.user) {
+        const response = await fetch("/api/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: data.user.id,
+            email: form.email,
+            username: form.username,
+            user_type: form.user_type,
+            interests: form.interests,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to create user profile");
+        }
+
+        // Clean up localStorage after successful email signup
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("signupFormData");
+        }
+
         addNotification(
-          data.error || "Failed to send verification email",
-          "error"
+          "Account created successfully! Welcome aboard! 🎉",
+          "success"
         );
       }
-    } catch (error) {
-      console.error("Signup error:", error);
-      addNotification("An error occurred. Please try again.", "error");
+
+      // Redirect to home page
+      router.push("/");
+    } catch (err: any) {
+      console.error("Signup error:", err);
+      addNotification(
+        err.message || "An unexpected error occurred during signup.",
+        "error"
+      );
     } finally {
       hideLoading();
     }
@@ -126,8 +168,7 @@ export default function SignupFlow() {
   return (
     <>
       {/* Back Button */}
-
-      <div className="absolute top-16 left-2 lg:top-30 lg:left-40">
+      <div className="absolute top-16 left-2 sm:top-30 sm:left-40">
         <button
           onClick={() => goToStep(step - 1)}
           disabled={animating}
@@ -168,7 +209,7 @@ export default function SignupFlow() {
       {showContinueButton && (
         <div className={`${fadeNextClass}`}>
           {/* Mobile Bar - spans full width on mobile, hidden on desktop */}
-          <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-zinc-900 p-4 z-20">
+          <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-zinc-900 p-4 z-20">
             <AnimatedButton
               text="Continue"
               onClick={() => goToStep(step + 1)}

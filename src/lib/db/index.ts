@@ -44,7 +44,6 @@ export async function findUserById(
       id: true,
       email: true,
       name: true,
-      avatar: true,
       emailVerified: true,
       createdAt: true,
       updatedAt: true,

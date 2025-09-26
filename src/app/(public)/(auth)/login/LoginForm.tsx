@@ -1,42 +1,69 @@
 "use client";
+import { supabase } from "@/utils/supabase/client";
+import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
 import { AnimatedButton, ArrowBack, LightButton } from "@/components/ui";
-import { useHandleEnterPress } from "@/hooks/ui/useHandleEnterPress";
-import { useRef, useState } from "react";
-import { Facebook, Google } from "../../../../../public";
+import { Google } from "../../../../../public";
 
 export default function Login() {
   // data
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const isFormValid = email.trim() !== "" && password.trim() !== "";
+
   const handleSubmit = async () => {
-    alert(`Email: ${email}, Password: ${password}`);
+    if (!isFormValid) return;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      console.log("Logged in!", data);
+      // Redirect after successful login
+      router.push("/"); // or router.push("/dashboard") if you have a private page
+    }
   };
 
-  const handleEmailEnter = useHandleEnterPress<HTMLInputElement>({
-    onSubmit: handleSubmit,
-    nextRef: passwordRef,
-    enableWhen: email.trim().length > 0,
-  });
+  const handleOAuthSignIn = async (provider: "google" | "facebook") => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback`,
+      },
+    });
 
-  const handlePasswordEnter = useHandleEnterPress({
-    onSubmit: handleSubmit,
-    enableWhen: password.trim().length > 0,
-  });
+    console.log(
+      "OAuth redirect URL:",
+      `${window.location.origin}/api/auth/callback`
+    );
+
+    if (error) {
+      console.error("OAuth error:", error);
+      setError(error.message);
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full">
       {/* Back Button */}
-      <div className="absolute top-16 left-2 lg:top-30 lg:left-40">
+      <div className="absolute top-16 left-2 sm:top-30 sm:left-40">
         <ArrowBack defaultBack />
       </div>
 
       {/* Login Form Container */}
-      <div className="flex flex-col justify-center items-center w-full px-4 sm:px-6 md:px-8 lg:px-10 pt-30 sm:pt-50">
+      <div className="flex flex-col justify-center items-center w-full px-4 sm:px-10 pt-30 sm:pt-50">
         {/* Title */}
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center text-slate-900 dark:text-white">
           Login
@@ -63,11 +90,16 @@ export default function Login() {
                 required
               />
 
+              {error && (
+                <p className="text-sm text-rose-500 -mt-1 px-1">{error}</p>
+              )}
+
               <AnimatedButton
                 text="Login"
                 onClick={handleSubmit}
-                style="w-full "
+                style="w-full"
                 fullWidth
+                disabled={!isFormValid}
               />
             </div>
 
@@ -79,22 +111,14 @@ export default function Login() {
                 <hr className="col-span-3" />
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                <LightButton
-                  text="Facebook"
-                  img={Facebook.src}
-                  imgClass="h-4 sm:h-5 rounded-full me-2"
-                  variant="colored"
-                  fullWidth
-                />
-                <LightButton
-                  text="Google"
-                  img={Google.src}
-                  imgClass="h-4 sm:h-5 rounded-full me-2"
-                  variant="colored"
-                  fullWidth
-                />
-              </div>
+              <LightButton
+                text="Google"
+                img={Google.src}
+                imgClass="h-4 sm:h-5 rounded-full me-2"
+                variant="colored"
+                onClick={() => handleOAuthSignIn("google")}
+                fullWidth
+              />
             </div>
           </form>
 

@@ -2,11 +2,12 @@
 // app/signup/components/SignupFormStep.tsx
 import { useState, ChangeEvent } from "react";
 import { useHandleEnterPress } from "@/hooks/ui/useHandleEnterPress";
+import { supabase } from "@/utils/supabase/client";
 
 import { AnimatedButton, LightButton } from "@/components/ui";
 import Input from "@/components/forms/Input";
 
-import { Facebook, Google } from "../../../../../../public";
+import { Google } from "../../../../../../public";
 import { FormData } from "../SignupFlow";
 
 interface SignupFormStepProps {
@@ -82,6 +83,31 @@ export default function SignupFormStep({
   const handleKeyPress = useHandleEnterPress({
     onSubmit,
   });
+
+  const handleOAuthSignIn = async (provider: "google" | "facebook") => {
+    // Store the current form data so it can be used after OAuth redirect
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        "signupFormData",
+        JSON.stringify({
+          user_type: form.user_type,
+          interests: form.interests,
+        })
+      );
+      localStorage.setItem("fromSignupFlow", "true");
+    }
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/signup/complete`,
+      },
+    });
+
+    if (error) {
+      console.error("OAuth error:", error);
+    }
+  };
 
   return (
     <div
@@ -206,7 +232,7 @@ export default function SignupFormStep({
                 )}
 
               <AnimatedButton
-                text="Signup"
+                text={isLoading ? "Signing up..." : "Signup"}
                 onClick={onSubmit}
                 disabled={!isFormComplete || isLoading}
                 fullWidth
@@ -227,20 +253,13 @@ export default function SignupFormStep({
               </div>
 
               {/* Social login buttons */}
-              <div className="grid grid-cols-2 gap-4 sm:gap-4">
-                <LightButton
-                  text="Facebook"
-                  img={Facebook}
-                  imgClass="h-5 sm:h-5 rounded-full me-2"
-                  fullWidth
-                />
-                <LightButton
-                  text="Google"
-                  img={Google}
-                  imgClass="h-5 sm:h-5 rounded-full me-2"
-                  fullWidth
-                />
-              </div>
+              <LightButton
+                text="Google"
+                img={Google}
+                imgClass="h-5 sm:h-5 rounded-full me-2"
+                onClick={() => handleOAuthSignIn("google")}
+                fullWidth
+              />
             </div>
 
             {/* Terms and privacy */}
