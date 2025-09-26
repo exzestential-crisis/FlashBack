@@ -2,10 +2,11 @@
 
 import Loading from "@/app/loading";
 import EmptyDeck from "@/components/empty/EmptyDeck";
+import { DeckWithMeta } from "@/db/types";
 import { useEffect, useState } from "react";
 
 export default function DecksTab() {
-  const [decks, setDecks] = useState<any[]>([]);
+  const [decks, setDecks] = useState<DeckWithMeta[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
