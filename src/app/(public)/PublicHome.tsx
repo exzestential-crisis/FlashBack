@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Lottie from "lottie-react";
 import WelcomeAnimation from "@/components/animations/Welcome.json";
-import { AnimatedButton, LightButton } from "@/components/ui";
+import { TextButton, LightButton } from "@/components/ui";
 import Footer from "@/components/layout/Footer";
 import Brain from "@/components/animations/Brain";
 import Clock from "@/components/animations/Clock";
@@ -15,10 +15,10 @@ export default function PublicHome() {
       {/* Body */}
       <div className="relative flex flex-col min-h-screen justify-center px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center items-center">
-          <div className="flex flex-col lg:grid lg:grid-cols-3 w-full max-w-6xl">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 w-full max-w-6xl">
             {/* Mascot */}
-            <div className="lg:col-span-2 flex justify-center lg:justify-start lg:ps-10 mb-8 lg:mb-0">
-              <div className="w-80 h-80 lg:w-[650px] lg:h-[650px]">
+            <div className="flex justify-center lg:ps-10 mb-8 lg:mb-0">
+              <div className="w-80 h-80 lg:w-[500px] lg:h-[500px]">
                 <Lottie
                   animationData={WelcomeAnimation}
                   loop
@@ -37,7 +37,7 @@ export default function PublicHome() {
               </h2>
               <div className="w-full space-y-4 max-w-xs sm:max-w-sm lg:w-60">
                 <Link href="/signup">
-                  <AnimatedButton
+                  <TextButton
                     text="Get Started"
                     fullWidth
                     style="my-2 sm:my-4"

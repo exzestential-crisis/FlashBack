@@ -6,12 +6,13 @@ import { useState } from "react";
 import { BiSidebar } from "react-icons/bi";
 import { FaBell, FaHome, FaPlus, FaRegChartBar, FaUser } from "react-icons/fa";
 import { FaEarthAmericas, FaGear, FaClock } from "react-icons/fa6";
+import { HiMenuAlt1 } from "react-icons/hi";
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true); // Start collapsed on mobile
 
   const tabs = [
-    { name: "Home", icon: FaHome, link: "/home" },
+    { name: "Home", icon: FaHome, link: "/" },
     { name: "Discover", icon: FaEarthAmericas, link: "/discover" },
     { name: "Create", icon: FaPlus, link: "/create" },
     { name: "Statistics", icon: FaRegChartBar, link: "/statistics" },
@@ -19,46 +20,84 @@ export default function Sidebar() {
     { name: "Profile", icon: FaUser, link: "/profile" },
     { name: "Timer", icon: FaClock, link: "/timer" },
   ];
+
   return (
     <div className="sidebar flex">
+      {/* Mobile toggle button icon - always visible, slides smoothly */}
+      <HiMenuAlt1
+        className={`
+          h-8 w-8 text-zinc-400
+          fixed top-3 z-50 cursor-pointer
+          sm:hidden
+          transition-all duration-300 ease-in-out
+          ${collapsed ? "left-4" : "left-50"}
+        `}
+        onClick={() => setCollapsed(!collapsed)}
+      />
+
+      {/* Mobile overlay - fades in/out smoothly */}
       <div
         className={`
-          relative flex flex-col
-          dark:bg-zinc-800
+          fixed inset-0 bg-black/50 z-30
+          sm:hidden
+          transition-all duration-300 ease-in-out
+          ${
+            collapsed
+              ? "opacity-0 pointer-events-none"
+              : "opacity-100 pointer-events-auto"
+          }
+        `}
+        onClick={() => setCollapsed(true)}
+      />
+
+      <div
+        className={`
+          flex flex-col
+          dark:bg-zinc-800 bg-white
           border-e-2 p-4 border-zinc-200 dark:border-zinc-800
           h-screen overflow-hidden
-          transition-[width]
-          duration-300 ease-in-out
-          ${collapsed ? "w-20" : "w-64"}
+          transition-all duration-300 ease-in-out
+          
+          sm:relative sm:translate-x-0 sm:z-auto
+          fixed z-40 left-0 top-0
+          w-64
+          ${
+            collapsed
+              ? "sm:w-20 transform -translate-x-full sm:translate-x-0"
+              : "sm:w-64 transform translate-x-0"
+          }
       `}
       >
         {/* Brand + Collapse button */}
-        <div className="brand flex items-center">
+        <div className="flex items-center">
           <Link
             className={`
               flex items-center
               cursor-pointer
-              transition-all duration-300
+              transition-all duration-300 ease-in-out
               ${
                 collapsed
-                  ? "opacity-0 translate-x-[-10px] pointer-events-none"
+                  ? "sm:opacity-0 sm:translate-x-[-10px] sm:pointer-events-none opacity-100 translate-x-0"
                   : "opacity-100 translate-x-0"
               }
               `}
             href={"/"}
           >
             <img
-              src="http://placehold.co/50"
-              className="pe-4 h-12"
+              src={"./logo.svg"}
+              className="pe-3 sm:pe-1 h-6 sm:h-12"
               alt="Flashback"
             />
-            <h1 className="text-2xl font-bold">FlashBack</h1>
+            <h1 className="text-lg sm:text-2xl font-bold">FlashBack</h1>
           </Link>
-          <div className="flex items-center h-14">
+          <div className="flex items-center h-auto sm:h-14">
+            {/* Desktop toggle button */}
             <button
               className={`
-              absolute right-6 top-7 cursor-pointer
-              ${collapsed ? "mx-auto" : "ms-auto"}
+                absolute right-6 top-7 cursor-pointer
+                hidden sm:flex
+                transition-all duration-300 ease-in-out
+                ${collapsed ? "mx-auto" : "ms-auto"}
               `}
               onClick={() => setCollapsed(!collapsed)}
             >
@@ -124,11 +163,7 @@ const SidebarTab = ({
       transition-colors duration-300
       cursor-pointer
       ${className}
-      ${
-        isActive
-          ? "bg-sky-500 dark:bg-sky-600 text-white pointer-events-none"
-          : ""
-      }
+      ${isActive ? "bg-brand text-white pointer-events-none" : ""}
     `}
       href={link}
     >
@@ -143,13 +178,13 @@ const SidebarTab = ({
 
       <span
         className={`
-          absolute left-12 
-          transition-all duration-300 
+          absolute left-13
+          transition-all duration-300 ease-in-out
           whitespace-nowrap 
           text-sm z-0 
           ${
             collapsed
-              ? "opacity-0 translate-x-[-10px] pointer-events-none"
+              ? "sm:opacity-0 sm:translate-x-[-10px] sm:pointer-events-none opacity-100 translate-x-0"
               : "opacity-100 translate-x-0"
           }`}
       >

@@ -6,7 +6,7 @@ import { useNotifications } from "@/stores/notification";
 import { useLoadingStore } from "@/stores/loading";
 import { supabase } from "@/utils/supabase/client";
 
-import { AnimatedButton, ArrowBack } from "@/components/ui";
+import { TextButton, ArrowBack } from "@/components/ui";
 
 import UserTypeStep from "./steps/UserTypeStep";
 import InterestsStep from "./steps/InterestsStep";
@@ -212,7 +212,7 @@ export default function SignupFlow() {
         <div className={`${fadeNextClass}`}>
           {/* Mobile Bar - spans full width on mobile, hidden on desktop */}
           <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-zinc-900 p-4 z-20">
-            <AnimatedButton
+            <TextButton
               text="Continue"
               onClick={() => goToStep(step + 1)}
               disabled={animating || !canContinue()}
@@ -222,7 +222,7 @@ export default function SignupFlow() {
 
           {/* Desktop Button - positioned as before, only visible on desktop */}
           <div className="hidden lg:block fixed bottom-20 right-20">
-            <AnimatedButton
+            <TextButton
               text="Continue"
               onClick={() => goToStep(step + 1)}
               disabled={animating || !canContinue()}

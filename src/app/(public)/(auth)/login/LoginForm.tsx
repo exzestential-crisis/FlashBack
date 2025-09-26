@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
-import { AnimatedButton, ArrowBack, LightButton } from "@/components/ui";
+import { TextButton, ArrowBack, LightButton } from "@/components/ui";
 import { Google } from "../../../../../public";
 
 export default function Login() {
@@ -91,7 +91,7 @@ export default function Login() {
                 <p className="text-sm text-rose-500 -mt-1 px-1">{error}</p>
               )}
 
-              <AnimatedButton
+              <TextButton
                 text="Login"
                 onClick={handleSubmit}
                 style="w-full"

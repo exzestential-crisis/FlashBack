@@ -1,9 +1,9 @@
-// src/app/auth/layout.tsx
+// src/(private)/layout.tsx
 import { Metadata } from "next";
 import React from "react";
 import Navbar from "@/components/layout/Navbar";
 
-export default function SignupLayout({
+export default function PrivateLayout({
   children,
 }: {
   children: React.ReactNode;

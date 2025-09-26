@@ -1,3 +1,5 @@
+//db/types.ts
+
 import type { Deck } from "@/db/tables/decks";
 
 export type DeckWithMeta = Deck & {
