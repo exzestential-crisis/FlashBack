@@ -22,7 +22,7 @@ export default function Tabs({ tabs, activeTab, setActiveTab }: TabsProps) {
         <button
           key={index}
           onClick={() => setActiveTab(tab)}
-          className="p-4"
+          className="p-4 text-sm sm:text-base"
           style={{ width: `calc(100% / ${tabs.length})` }}
         >
           {tab}
