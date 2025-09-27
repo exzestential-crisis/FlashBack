@@ -1,34 +1,39 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useDeckStore } from "@/stores/decks";
+
+import { DeckCard } from "@/components/cards/decks";
 import Loading from "@/app/loading";
 import EmptyDeck from "@/components/empty/EmptyDeck";
-import { DeckWithMeta } from "@/db/types";
-import { useEffect, useState } from "react";
 
 export default function DecksTab() {
-  const [decks, setDecks] = useState<DeckWithMeta[]>([]);
+  const { decks, setDecks } = useDeckStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/decks")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API response:", data); // <-- check what actually comes back
         setDecks(Array.isArray(data) ? data : data.decks || []);
         setLoading(false);
       });
-  }, []);
+  }, [setDecks]);
 
   if (loading) return <Loading />;
 
   return (
-    <div className="h-full">
+    <div className="h-full p-4">
       {decks.length === 0 ? (
-        <div className="flex items-center h-full">
+        <div className="flex items-center justify-center h-full">
           <EmptyDeck />
         </div>
       ) : (
-        <div>yes something cuh</div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {decks.map((deck) => (
+            <DeckCard key={deck.deckId} deck={deck} />
+          ))}
+        </div>
       )}
     </div>
   );

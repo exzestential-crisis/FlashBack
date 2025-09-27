@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Input from "@/components/forms/Input";
-import { TextButton, ArrowBack, LightButton } from "@/components/ui";
+import { TextButton, LightButton } from "@/components/ui/custom";
+import { ArrowBack } from "@/components/icons";
 import { Google } from "../../../../../public";
 
 export default function Login() {

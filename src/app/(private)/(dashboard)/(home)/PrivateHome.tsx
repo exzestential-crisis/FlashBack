@@ -1,28 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import Tabs from "../../_components/Tabs";
-import AnimatedTabPanel from "../../_components/AnimatedTabPanel";
+import { Tabs, AnimatedTabPanel } from "../../_components";
 import { DecksTab, FoldersTab, FavouritesTab } from "./_tabs";
+
 import { FaFolderOpen } from "react-icons/fa";
 import { PiCardsThreeFill } from "react-icons/pi";
 import { TbCardsFilled } from "react-icons/tb";
-import PlusButton from "@/components/ui/custom/PlusButton";
-import CascadeUpMenu from "@/components/ui/custom/CascadeUpMenu";
-import MobileTopBar from "@/components/layout/MobileTopBar";
+
+import { PlusButton, CascadeUpMenu } from "@/components/ui/custom";
+import { MobileTopBar } from "@/components/layout";
+
+import { useTabs } from "@/hooks/ui/useTabs";
+import { useModalStore } from "@/stores/modalStore";
+
+const tabPanels = [
+  { key: "Decks", content: <DecksTab /> },
+  { key: "Folders", content: <FoldersTab /> },
+  { key: "Favourites", content: <FavouritesTab /> },
+];
 
 export default function PrivateHome() {
-  // ui states
-  const panels = [
-    { key: "Decks", content: <DecksTab /> },
-    { key: "Folders", content: <FoldersTab /> },
-    { key: "Favourites", content: <FavouritesTab /> },
-  ];
+  const { tabs, activeTab, activeIndex, setActiveTab } = useTabs(tabPanels);
+  const openModal = useModalStore((state) => state.openModal);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const tabs = panels.map((panel) => panel.key);
-  const [activeTab, setActiveTab] = useState<string>(tabs[0]);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const handleCreateDeckClick = () => {
+    openModal("deck"); // no data needed for creating a new deck
+  };
 
   const menuItems = [
     {
@@ -35,9 +44,7 @@ export default function PrivateHome() {
     {
       label: "Create Deck",
       icon: PiCardsThreeFill,
-      onClick: () => {
-        console.log("Create Deck clicked");
-      },
+      onClick: handleCreateDeckClick,
     },
     {
       label: "Create Card",
@@ -48,24 +55,17 @@ export default function PrivateHome() {
     },
   ];
 
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   return (
     <div className="w-full min-h-screen flex flex-col">
       <MobileTopBar />
       <Tabs
         tabs={tabs}
         activeTab={activeTab}
-        setActiveTab={(tab) => {
-          setActiveTab(tab);
-          setActiveIndex(tabs.indexOf(tab));
-        }}
+        setActiveTab={setActiveTab} // Just this - let the hook handle the index
       />
 
       <div className="flex-1">
-        <AnimatedTabPanel panels={panels} activeIndex={activeIndex} />
+        <AnimatedTabPanel panels={tabPanels} activeIndex={activeIndex} />
 
         <div className="fixed bottom-8 right-6 z-50">
           <PlusButton
@@ -74,7 +74,7 @@ export default function PrivateHome() {
             size="w-14 sm:w-20 sm:h-20"
           />
 
-          <CascadeUpMenu isOpen={isOpen} menuItems={menuItems} />
+          <CascadeUpMenu isOpen={isMenuOpen} menuItems={menuItems} />
         </div>
       </div>
     </div>

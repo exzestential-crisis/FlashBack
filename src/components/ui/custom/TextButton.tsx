@@ -2,16 +2,17 @@
 
 import BaseButton from "../BaseButton";
 
-type TextButtonProps = {
+export type TextButtonProps = {
   text?: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
   disabled?: boolean;
   fullWidth?: boolean;
-  style?: string;
+  variant?: "default" | "danger" | "success";
   textSize?: string;
   img?: string;
   imgClass?: string;
+  style?: string;
 };
 
 export default function TextButton({
@@ -20,10 +21,11 @@ export default function TextButton({
   onClick,
   disabled = false,
   fullWidth = false,
-  style = "",
+  variant = "default",
   textSize = "text-md",
   img = "",
   imgClass = "",
+  style = "",
 }: TextButtonProps) {
   return (
     <BaseButton
@@ -31,6 +33,7 @@ export default function TextButton({
       onClick={onClick}
       disabled={disabled}
       fullWidth={fullWidth}
+      variant={variant}
       style={`${textSize} ${style}`}
     >
       {img && <img src={img} className={imgClass} alt="" />}

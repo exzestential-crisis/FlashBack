@@ -7,6 +7,8 @@
   --color-brand-dark: #0284c7;
   --color-accent: #fdc700;
   --color-accent-light: #ffdf20;
+  --color-danger: #e64342;
+  --color-danger-light: #ee6e6c;
 }
 
 @media (prefers-color-scheme: dark) {

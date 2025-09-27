@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, ChangeEvent } from "react";
-import ClosedEye from "../../../public/icons/ClosedEye";
-import OpenEye from "../../../public/icons/OpenEye";
+import ClosedEye from "../icons/ClosedEye";
+import OpenEye from "../icons/OpenEye";
 
 interface InputProps {
+  id?: string; // <-- new optional id
   type?: "text" | "email" | "password";
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -17,6 +18,7 @@ interface InputProps {
 }
 
 export default function Input({
+  id,
   type = "text",
   value,
   onChange,
@@ -33,36 +35,32 @@ export default function Input({
     setPasswordVisible((prev) => !prev);
   };
 
-  // Base styles with proper mobile-first responsive design
   const baseStyles = `
     w-full
     px-3 py-2.5 text-sm
     sm:px-3 sm:py-3 sm:text-base
     lg:px-4 lg:py-3 lg:text-base
     rounded-lg sm:rounded-xl
-    focus:outline-none focus:ring-2 
+    focus:outline-none focus:ring-2 focus:ring-brand-light
     transition-all duration-200
     min-h-[44px] sm:min-h-[48px]
   `;
 
-  // Variant-specific styles
   const variantStyles = {
     blue: `
-        text-slate-900 dark:text-white
-        bg-sky-100 dark:bg-slate-800 
-        border border-sky-200 dark:border-slate-700
-        focus:ring-sky-500 focus:border-sky-500
-        dark:focus:ring-sky-800 dark:focus:border-sky-800
-        placeholder:text-sky-600 dark:placeholder:text-sky-400
-        `,
+      text-slate-900 dark:text-white
+      bg-sky-100 dark:bg-slate-800 
+      border border-sky-200 dark:border-slate-700
+      dark:focus:ring-sky-800 dark:focus:border-sky-800
+      placeholder:text-sky-600 dark:placeholder:text-sky-400
+    `,
     plain: `
-        text-slate-900 dark:text-white
-        bg-zinc-100 dark:bg-zinc-700
-        border border-zinc-200 dark:border-zinc-600
-        focus:ring-sky-500 focus:border-sky-500
-        dark:focus:ring-sky-800 dark:focus:border-sky-800
-        placeholder:text-zinc-500 dark:placeholder:text-zinc-400
-        `,
+      text-slate-900 dark:text-white
+      bg-zinc-100 dark:bg-zinc-700
+      border border-zinc-200 dark:border-zinc-600
+      dark:focus:ring-sky-800 dark:focus:border-sky-800
+      placeholder:text-zinc-500 dark:placeholder:text-zinc-400
+    `,
   };
 
   const inputType =
@@ -72,7 +70,6 @@ export default function Input({
         : "password"
       : type;
 
-  // Responsive eye icon positioning
   const eyeIconPosition = `
     absolute right-2 sm:right-3 
     top-1/2 -translate-y-1/2
@@ -83,6 +80,7 @@ export default function Input({
   return (
     <div className="relative w-full">
       <input
+        id={id} // <-- added here
         type={inputType}
         value={value}
         onChange={onChange}
@@ -99,8 +97,12 @@ export default function Input({
           .replace(/\s+/g, " ")
           .trim()}
       />
+      {required && (
+        <span className="absolute right-3 top-7 -translate-y-1/2 text-red-500 pointer-events-none text-3xl">
+          *
+        </span>
+      )}
 
-      {/* Password visibility toggle */}
       {type === "password" && showPasswordToggle && (
         <div
           className={eyeIconPosition}

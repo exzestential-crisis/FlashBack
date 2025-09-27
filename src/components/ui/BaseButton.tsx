@@ -7,8 +7,9 @@ export type BaseButtonProps = {
   onClick?: () => void;
   disabled?: boolean;
   fullWidth?: boolean;
-  style?: string;
   rounded?: string;
+  style?: string; // extra custom styles
+  variant?: "default" | "danger" | "success"; // semantic variants
   children?: React.ReactNode;
 };
 
@@ -17,8 +18,9 @@ export default function BaseButton({
   onClick,
   disabled = false,
   fullWidth = false,
-  style = "",
   rounded = "rounded-xl",
+  style = "",
+  variant = "default",
   children,
 }: BaseButtonProps) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,41 +28,49 @@ export default function BaseButton({
     onClick?.();
   };
 
+  const variantStyles: Record<string, string> = {
+    default: `
+      bg-brand
+      shadow-[0_4px_0_theme('colors.brand.dark')]
+      hover:bg-brand-light hover:shadow-[0_4px_0_theme('colors.brand')]
+      focus:bg-brand-dark focus:shadow-none
+      text-white
+    `,
+    danger: `
+      bg-danger
+      shadow-[0_4px_0_theme('colors.danger-dark')]
+      hover:bg-danger-light hover:shadow-[0_4px_0_theme('colors.danger')]
+      focus:bg-danger-dark focus:shadow-none
+      text-white
+    `,
+    success: `
+      bg-success
+      shadow-[0_4px_0_theme('colors.success-dark')]
+      hover:bg-success-light hover:shadow-[0_4px_0_theme('colors.success')]
+      focus:bg-success-dark focus:shadow-none
+      text-white
+    `,
+  };
+
   return (
-    <div>
-      <button
-        type={type}
-        onClick={handleClick}
-        className={`
-          ${style}
-          ${rounded}
-          ${fullWidth ? "w-full" : ""}
-          cursor-pointer
-          flex items-center justify-center
-          p-2.5 gap-4
-          text-white font-medium
-          bg-brand
-          shadow-[0_4px_0_theme('colors.brand.dark')] 
-
-          transition
-          hover:bg-brand-light 
-          hover:shadow-[0_4px_0_theme('colors.brand')] 
-          hover:translate-y-[1px]
-
-          focus:bg-brand-dark 
-          focus:shadow-none
-          focus:translate-y-1
-
-          disabled:opacity-50
-          disabled:cursor-not-allowed
-          disabled:hover:bg-brand 
-          disabled:hover:shadow-[0_4px_0_theme('colors.brand.dark')]
-          disabled:hover:translate-y-0
-        `}
-        disabled={disabled}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      type={type}
+      onClick={handleClick}
+      disabled={disabled}
+      className={`
+        ${variantStyles[variant] || variantStyles.default}
+        ${rounded}
+        ${fullWidth ? "w-full" : ""}
+        flex items-center justify-center
+        p-2.5 gap-4
+        cursor-pointer
+        transition
+        disabled:opacity-50
+        disabled:cursor-not-allowed
+        ${style}
+      `}
+    >
+      {children}
+    </button>
   );
 }

@@ -1,5 +1,2 @@
-export { default as TextButton } from "./custom/TextButton";
+export { default as BaseButton } from "./BaseButton";
 export { default as KebabMenu } from "./KebabMenu";
-export { default as LightButton } from "./custom/LightButton";
-export { default as ArrowBack } from "./ArrowBack";
-export { default as ArrowForward } from "./ArrowForward";

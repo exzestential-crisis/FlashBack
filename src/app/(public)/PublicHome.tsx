@@ -2,12 +2,14 @@
 "use client";
 import Link from "next/link";
 import Lottie from "lottie-react";
+
 import WelcomeAnimation from "@/components/animations/Welcome.json";
-import { TextButton, LightButton } from "@/components/ui";
-import Footer from "@/components/layout/Footer";
 import Brain from "@/components/animations/Brain";
 import Clock from "@/components/animations/Clock";
 import Access from "@/components/animations/Access";
+
+import { LightButton, TextButton } from "@/components/ui/custom";
+import Footer from "@/components/layout/Footer";
 
 export default function PublicHome() {
   return (
