@@ -4,7 +4,7 @@ import { useState, ChangeEvent } from "react";
 import { useHandleEnterPress } from "@/hooks/ui/useHandleEnterPress";
 import { supabase } from "@/utils/supabase/client";
 
-import { TextButton, LightButton } from "@/components/ui";
+import { TextButton, LightButton } from "@/components/ui/custom";
 import Input from "@/components/forms/Input";
 
 import { Google } from "../../../../../../public";

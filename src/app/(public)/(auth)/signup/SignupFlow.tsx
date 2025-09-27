@@ -6,7 +6,8 @@ import { useNotifications } from "@/stores/notification";
 import { useLoadingStore } from "@/stores/loading";
 import { supabase } from "@/utils/supabase/client";
 
-import { TextButton, ArrowBack } from "@/components/ui";
+import { TextButton } from "@/components/ui/custom";
+import { ArrowBack } from "@/components/icons";
 
 import UserTypeStep from "./steps/UserTypeStep";
 import InterestsStep from "./steps/InterestsStep";

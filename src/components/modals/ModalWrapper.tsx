@@ -13,7 +13,14 @@ export default function ModalWrapper() {
 
   switch (currentModal) {
     case "deck":
-      return <DeckModal initialData={modalData} onClose={closeModal} />;
+      return (
+        <DeckModal
+          initialData={
+            modalData && modalData.type === "deck" ? modalData.data : undefined
+          }
+          onClose={closeModal}
+        />
+      );
     // case "delete":
     //   return <DeleteModal item={modalData} onClose={closeModal} />;
     // case "folder":
