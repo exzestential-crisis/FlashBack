@@ -33,21 +33,24 @@ export default function BaseButton({
       bg-brand
       shadow-[0_4px_0_theme('colors.brand.dark')]
       hover:bg-brand-light hover:shadow-[0_4px_0_theme('colors.brand')]
-      focus:bg-brand-dark focus:shadow-none
+      focus:bg-brand-dark focus:shadow-none focus:translate-y-1
+      active:bg-brand-dark active:shadow-none active:translate-y-1
       text-white
     `,
     danger: `
       bg-danger
       shadow-[0_4px_0_theme('colors.danger-dark')]
       hover:bg-danger-light hover:shadow-[0_4px_0_theme('colors.danger')]
-      focus:bg-danger-dark focus:shadow-none
+      focus:bg-danger-dark focus:shadow-none focus:translate-y-1
+      active:bg-danger-dark active:shadow-none active:translate-y-1
       text-white
     `,
     success: `
       bg-success
       shadow-[0_4px_0_theme('colors.success-dark')]
       hover:bg-success-light hover:shadow-[0_4px_0_theme('colors.success')]
-      focus:bg-success-dark focus:shadow-none
+      focus:bg-success-dark focus:shadow-none focus:translate-y-1
+      active:bg-success-dark active:shadow-none active:translate-y-1
       text-white
     `,
   };

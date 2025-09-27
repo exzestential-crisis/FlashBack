@@ -1,6 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getAuthenticatedUser } from "@/utils/helpers/getAuthenticatedUser";
-import { updateDeck, getUserDecksWithCounts } from "@/db/queries/deck";
+import {
+  updateDeck,
+  getUserDecksWithCounts,
+  deleteDeck,
+} from "@/db/queries/deck";
 
 export async function PATCH(
   req: NextRequest,
@@ -39,4 +43,25 @@ export async function PATCH(
   ).then((decks) => decks.filter((d) => d.deckId === deckId));
 
   return NextResponse.json(updatedDeckWithMeta);
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ deckId: string }> }
+) {
+  const { deckId } = await params;
+
+  const { error, user, response } = await getAuthenticatedUser();
+  if (error) return response;
+
+  const deleted = await deleteDeck(deckId, user!.user_id);
+
+  if (!deleted) {
+    return NextResponse.json(
+      { error: "Deck not found or unauthorized" },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json({ success: true });
 }

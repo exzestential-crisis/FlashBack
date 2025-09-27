@@ -12,15 +12,11 @@ type DeckProps = {
   onDelete?: (deck: DeckWithMeta) => void;
 };
 
-export default function Deck({ deck, onDelete }: DeckProps) {
+export default function Deck({ deck }: DeckProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { openModal } = useModalStore();
 
   const colors = getColorVariants(deck.folderColor || 8);
-
-  const handleEdit = () => {
-    openModal("deck", deck);
-  };
 
   return (
     <div
@@ -60,8 +56,19 @@ export default function Deck({ deck, onDelete }: DeckProps) {
           <KebabMenu
             className="absolute right-0 mt-1 text-sm max-sm:text-xs"
             options={[
-              { label: "Edit", onClick: handleEdit },
-              { label: "Delete", onClick: () => onDelete?.(deck) },
+              {
+                label: "Edit",
+                onClick: () => openModal("deck", deck),
+              },
+              {
+                label: "Delete",
+                onClick: () =>
+                  openModal("delete", {
+                    id: deck.deckId,
+                    name: deck.name,
+                    target: "deck",
+                  }),
+              },
             ]}
           />
           <div className="flex items-start justify-between">

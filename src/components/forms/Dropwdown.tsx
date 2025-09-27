@@ -3,11 +3,17 @@
 import { useState, ChangeEvent } from "react";
 import { ChevronDown } from "../icons";
 
+interface DropdownOption {
+  value: string;
+  label: string;
+  icon?: React.ReactNode;
+}
+
 interface DropdownProps {
   id?: string;
   value: string;
   onChange: (value: string) => void;
-  options: { label: string; value: string }[];
+  options: DropdownOption[];
   placeholder?: string;
   required?: boolean;
   variant?: "plain" | "blue";
@@ -30,6 +36,7 @@ export default function Dropdown({
 
   const baseStyles = `
     w-full
+    h-11
     px-3 py-2.5 text-sm
     sm:px-3 sm:py-3 sm:text-base
     lg:px-4 lg:py-3 lg:text-base
@@ -50,7 +57,7 @@ export default function Dropdown({
       placeholder:text-sky-600 dark:placeholder:text-sky-400
     `,
     plain: `
-      text-slate-900 dark:text-white
+      text-zinc-900 dark:text-white
       bg-zinc-100 dark:bg-zinc-700
       border-zinc-200 dark:border-zinc-600
       dark:focus:ring-sky-800 dark:focus:border-sky-800
@@ -67,8 +74,19 @@ export default function Dropdown({
         } ${className} flex items-center justify-between`}
         onClick={() => !disabled && setOpen((prev) => !prev)}
       >
-        <span className={`${value ? "" : "text-zinc-400 dark:text-zinc-500"}`}>
-          {value ? options.find((o) => o.value === value)?.label : placeholder}
+        <span
+          className={`${
+            value ? "" : "text-zinc-400 dark:text-zinc-500"
+          } flex items-center gap-2`}
+        >
+          {value ? (
+            <>
+              {options.find((o) => o.value === value)?.icon}
+              {options.find((o) => o.value === value)?.label}
+            </>
+          ) : (
+            placeholder
+          )}
         </span>
         <ChevronDown />
       </div>
@@ -80,17 +98,21 @@ export default function Dropdown({
       )}
 
       {open && !disabled && (
-        <ul className="absolute z-50 w-full mt-1 max-h-60 overflow-auto rounded-lg border border-zinc-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg">
+        <ul className="absolute z-50 w-full mt-2 max-h-60 overflow-auto rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-700 shadow-lg p-2 space-y-1">
           {options.map((opt) => (
             <li
               key={opt.value}
-              className="px-3 py-2 cursor-pointer hover:bg-sky-100 dark:hover:bg-slate-700"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer 
+                 hover:bg-zinc-100 dark:hover:bg-zinc-800
+                 text-zinc-800 dark:text-zinc-200
+                 transition-colors duration-150"
               onClick={() => {
                 onChange(opt.value);
                 setOpen(false);
               }}
             >
-              {opt.label}
+              {opt.icon}
+              <span>{opt.label}</span>
             </li>
           ))}
         </ul>

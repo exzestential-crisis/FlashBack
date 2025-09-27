@@ -87,7 +87,12 @@ export default function FolderCard({ folder }: FolderCardProps) {
             },
             {
               label: "Delete",
-              onClick: () => openModal("delete", folder.folderId),
+              onClick: () =>
+                openModal("delete", {
+                  id: folder.folderId,
+                  name: folder.name,
+                  target: "folder",
+                }),
             },
           ]}
         />

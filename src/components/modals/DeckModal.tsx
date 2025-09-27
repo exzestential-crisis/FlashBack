@@ -5,9 +5,11 @@ import { createPortal } from "react-dom";
 
 import type { DeckWithMeta } from "@/db/types";
 import { useDeckStore } from "@/stores/decks";
+import { useFolderStore } from "@/stores/folders"; // 👈 assuming you have this
 
-import { Input, TextArea } from "../forms";
+import { Dropdown, Input, TextArea } from "../forms";
 import { LightButton, TextButton } from "../ui/custom";
+import { Cross } from "../icons";
 
 interface DeckModalProps {
   folderId?: string;
@@ -27,22 +29,25 @@ export default function DeckModal({
   const [currentFolderId, setCurrentFolderId] = useState(
     folderId || initialData?.folderId || null
   );
-  const [errorMessage, setErrorMessage] = useState(""); // new state
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addDeck = useDeckStore((state) => state.addDeck);
   const updateDeck = useDeckStore((state) => state.updateDeck);
+  const folders = useFolderStore((state) => state.folders); // 👈 grab folders
 
-  // Autofocus first input on open
   useEffect(() => {
     document.getElementById("deck-name-input")?.focus();
   }, []);
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      setErrorMessage("Deck name cannot be empty."); // show error
+      setErrorMessage("Deck name cannot be empty.");
       return;
     }
-    setErrorMessage(""); // clear error if valid
+
+    setErrorMessage("");
+    setIsSubmitting(true);
 
     const payload = { name, description, folderId: currentFolderId };
 
@@ -66,6 +71,7 @@ export default function DeckModal({
       onClose?.();
     } catch (err) {
       console.error(err);
+      setIsSubmitting(false);
     }
   };
 
@@ -75,14 +81,23 @@ export default function DeckModal({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg w-full max-w-md p-6 relative"
+        className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg w-full max-w-md p-6 relative mx-6 sm:mx-0"
         onClick={(e) => e.stopPropagation()}
       >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4"
+          aria-label="Close"
+        >
+          <Cross />
+        </button>
+
         <h2 className="text-xl font-semibold mb-4">
           {initialData ? "Edit Deck" : "Create New Deck"}
         </h2>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
+          {/* Name */}
           <Input
             id="deck-name-input"
             value={name}
@@ -94,10 +109,28 @@ export default function DeckModal({
           {errorMessage && (
             <p className="text-red-500 text-sm">{errorMessage}</p>
           )}
+
+          {/* Description */}
           <TextArea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Deck Description"
+          />
+
+          <Dropdown
+            id="folder-selector"
+            value={currentFolderId ?? ""}
+            onChange={(val) => setCurrentFolderId(val || null)}
+            options={[
+              { value: "", label: "No folder" },
+              ...folders.map((folder) => ({
+                value: folder.folderId,
+                label: folder.name,
+              })),
+            ]}
+            placeholder="Select a folder..."
+            variant="plain" // or "blue" if you want the styled one
+            required={false}
           />
         </div>
 
@@ -107,6 +140,7 @@ export default function DeckModal({
             text={initialData ? "Save Changes" : "Create Deck"}
             onClick={handleSubmit}
             variant="default"
+            disabled={isSubmitting}
           />
         </div>
       </div>

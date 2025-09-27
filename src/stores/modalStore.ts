@@ -1,4 +1,3 @@
-// stores/modalStore.ts
 import { create } from "zustand";
 import type { DeckWithMeta } from "@/db/types";
 import type { Folder } from "@/db/tables/folders";
@@ -8,12 +7,21 @@ type ModalType = "deck" | "delete" | "folder";
 type ModalData =
   | { type: "deck"; data: DeckWithMeta }
   | { type: "folder"; data: Folder }
-  | { type: "delete"; data: string };
+  | {
+      type: "delete";
+      data: { id: string; name: string; target: "deck" | "folder" };
+    };
 
 interface ModalStore {
   currentModal?: ModalType;
   modalData?: ModalData;
-  openModal: (type: ModalType, data?: DeckWithMeta | Folder | string) => void;
+  openModal: (
+    type: ModalType,
+    data?:
+      | DeckWithMeta
+      | Folder
+      | { id: string; name: string; target: "deck" | "folder" }
+  ) => void;
   closeModal: () => void;
 }
 
@@ -28,7 +36,10 @@ export const useModalStore = create<ModalStore>((set) => ({
       } else if (type === "folder") {
         modalData = { type: "folder", data: data as Folder };
       } else if (type === "delete") {
-        modalData = { type: "delete", data: data as string };
+        modalData = {
+          type: "delete",
+          data: data as { id: string; name: string; target: "deck" | "folder" },
+        };
       }
     }
     set({ currentModal: type, modalData });

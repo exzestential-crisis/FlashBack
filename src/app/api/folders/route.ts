@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   const newFolder: NewFolder = {
     userId: user!.user_id,
     name: body.name,
-    colorId: body.colorId ?? null,
+    colorId: body.colorId,
     isFavorite: body.isFavorite ?? false,
   };
 
@@ -54,7 +54,7 @@ export async function PATCH(req: NextRequest) {
     (key) => updateData[key] === undefined && delete updateData[key]
   );
 
-  const updated = await updateFolder(folderId, updateData);
+  const updated = await updateFolder(folderId, user!.user_id, updateData);
 
   if (!updated) {
     return NextResponse.json(
@@ -72,7 +72,7 @@ export async function DELETE(req: NextRequest) {
   if (error) return response;
 
   const { folderId } = await req.json();
-  await deleteFolder(folderId);
+  await deleteFolder(folderId, user!.user_id);
 
   return NextResponse.json({ success: true });
 }

@@ -2,12 +2,16 @@
 "use client";
 
 import DeckModal from "./DeckModal";
-// import DeleteModal from "./DeleteModal"; // create this
-// import FolderModal from "./FolderModal"; // create this
+import DeleteModal from "./DeleteModal";
+import FolderModal from "./FolderModal";
 import { useModalStore } from "@/stores/modalStore";
+import { useDeckStore } from "@/stores/decks";
+import { useFolderStore } from "@/stores/folders";
 
 export default function ModalWrapper() {
   const { currentModal, modalData, closeModal } = useModalStore();
+  const removeDeck = useDeckStore((s) => s.removeDeck);
+  const removeFolder = useFolderStore((s) => s.removeFolder);
 
   if (!currentModal) return null;
 
@@ -21,10 +25,45 @@ export default function ModalWrapper() {
           onClose={closeModal}
         />
       );
-    // case "delete":
-    //   return <DeleteModal item={modalData} onClose={closeModal} />;
-    // case "folder":
-    //   return <FolderModal initialData={modalData} onClose={closeModal} />;
+
+    case "delete":
+      if (!modalData || modalData.type !== "delete") return null;
+
+      return (
+        <DeleteModal
+          type={modalData.data.target}
+          name={modalData.data.name}
+          onClose={closeModal}
+          onConfirm={async () => {
+            if (modalData.data.target === "deck") {
+              await fetch(`/api/decks/${modalData.data.id}`, {
+                method: "DELETE",
+              });
+              removeDeck(modalData.data.id);
+            } else {
+              await fetch(`/api/folders/${modalData.data.id}`, {
+                method: "DELETE",
+              });
+              removeFolder(modalData.data.id);
+            }
+            closeModal();
+          }}
+        />
+      );
+      if (!modalData) return null;
+
+    case "folder":
+      return (
+        <FolderModal
+          initialData={
+            modalData && modalData.type === "folder"
+              ? modalData.data
+              : undefined
+          }
+          onClose={closeModal}
+        />
+      );
+
     default:
       return null;
   }

@@ -67,3 +67,19 @@ export async function updateDeck(
 export async function createDeck(newDeck: NewDeck) {
   return await db.insert(decks).values(newDeck).returning();
 }
+
+export async function deleteDeck(
+  deckId: string,
+  userId: string
+): Promise<boolean> {
+  // Delete all cards belonging to this deck
+  await db.delete(cards).where(eq(cards.deckId, deckId));
+
+  // Delete the deck itself
+  const result = await db
+    .delete(decks)
+    .where(and(eq(decks.deckId, deckId), eq(decks.userId, userId)))
+    .returning({ deckId: decks.deckId });
+
+  return result.length > 0;
+}

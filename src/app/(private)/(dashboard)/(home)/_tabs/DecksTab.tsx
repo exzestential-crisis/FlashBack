@@ -31,7 +31,9 @@ export default function DecksTab() {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {decks.map((deck) => (
-            <DeckCard key={deck.deckId} deck={deck} />
+            <div key={deck.deckId} className="flex justify-center">
+              <DeckCard deck={deck} />
+            </div>
           ))}
         </div>
       )}

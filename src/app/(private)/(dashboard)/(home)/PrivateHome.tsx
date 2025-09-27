@@ -34,13 +34,14 @@ export default function PrivateHome() {
     openModal("deck"); // no data needed for creating a new deck
   };
 
+  const handleCreateFolderClick = () => {
+    openModal("folder");
+  };
   const menuItems = [
     {
       label: "Create Folder",
       icon: FaFolderOpen,
-      onClick: () => {
-        console.log("Create Folder clicked");
-      },
+      onClick: handleCreateFolderClick,
     },
     {
       label: "Create Deck",
