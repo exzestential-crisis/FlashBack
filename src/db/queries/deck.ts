@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { decks } from "@/db/tables/decks";
 import { cards } from "@/db/tables/cards";
 import { folders } from "@/db/tables/folders";
-import { eq, sql, getTableColumns, count, and } from "drizzle-orm";
+import { eq, getTableColumns, count, and } from "drizzle-orm";
 
 import type { DeckWithMeta } from "@/db/types";
 import type { Deck, NewDeck } from "@/db/tables/decks";
