@@ -1,5 +1,6 @@
 // src/app/page.tsx
 "use client";
+
 import Link from "next/link";
 import Lottie from "lottie-react";
 
