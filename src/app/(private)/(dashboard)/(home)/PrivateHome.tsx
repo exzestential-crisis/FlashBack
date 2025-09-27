@@ -25,6 +25,9 @@ export default function PrivateHome() {
   ];
 
   const { tabs, activeTab, activeIndex, setActiveTab } = useTabs(tabPanels);
+  const setActiveIndex = (index: number) => {
+    setActiveTab(tabPanels[index].key); // convert index -> tab key
+  };
 
   const handleToggle = () => {
     setIsMenuOpen((prev) => !prev);
@@ -67,8 +70,11 @@ export default function PrivateHome() {
       />
 
       <div className="flex-1">
-        <AnimatedTabPanel panels={tabPanels} activeIndex={activeIndex} />
-
+        <AnimatedTabPanel
+          panels={tabPanels}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        />
         <div className="fixed bottom-8 right-6 z-50">
           <PlusButton
             onClick={handleToggle}
