@@ -14,16 +14,17 @@ import { MobileTopBar } from "@/components/layout";
 import { useTabs } from "@/hooks/ui/useTabs";
 import { useModalStore } from "@/stores/modalStore";
 
-const tabPanels = [
-  { key: "Decks", content: <DecksTab /> },
-  { key: "Folders", content: <FoldersTab /> },
-  { key: "Favourites", content: <FavouritesTab /> },
-];
-
 export default function PrivateHome() {
-  const { tabs, activeTab, activeIndex, setActiveTab } = useTabs(tabPanels);
   const openModal = useModalStore((state) => state.openModal);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const tabPanels = [
+    { key: "Decks", content: <DecksTab /> },
+    { key: "Folders", content: <FoldersTab /> },
+    { key: "Favourites", content: <FavouritesTab /> },
+  ];
+
+  const { tabs, activeTab, activeIndex, setActiveTab } = useTabs(tabPanels);
 
   const handleToggle = () => {
     setIsMenuOpen((prev) => !prev);
