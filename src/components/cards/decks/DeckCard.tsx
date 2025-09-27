@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useIsDesktop } from "@/hooks/ui/useIsDesktop";
 import { getColorVariants } from "@/utils/colorUtils";
 import { useModalStore } from "@/stores/modalStore";
 
@@ -15,18 +14,17 @@ type DeckProps = {
 
 export default function Deck({ deck, onDelete }: DeckProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const isDesktop = useIsDesktop();
   const { openModal } = useModalStore();
 
   const colors = getColorVariants(deck.folderColor || 8);
 
   const handleEdit = () => {
-    openModal("deck", deck); // <-- call the store function directly
+    openModal("deck", deck);
   };
 
   return (
     <div
-      className="relative h-40 w-60 max-sm:h-32 max-sm:w-44"
+      className="relative h-40 w-60 max-sm:h-32 max-sm:w-40"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -34,8 +32,7 @@ export default function Deck({ deck, onDelete }: DeckProps) {
       <div
         className="absolute inset-0 z-0 transition-transform duration-200"
         style={{
-          transform:
-            isDesktop && isHovered ? "translateY(-6px)" : "translateY(0)",
+          transform: isHovered ? "translateY(-6px)" : "translateY(0)",
         }}
       >
         <div
@@ -56,8 +53,7 @@ export default function Deck({ deck, onDelete }: DeckProps) {
       <div
         className="absolute bottom-0 z-30 bg-white dark:bg-zinc-700 h-2/3 w-full rounded-b-xl transition-all duration-200"
         style={{
-          transform:
-            isDesktop && isHovered ? "translateY(3px)" : "translateY(0)",
+          transform: isHovered ? "translateY(3px)" : "translateY(0)",
         }}
       >
         <div className="relative flex flex-grow flex-col h-full p-2 max-sm:p-1">
@@ -78,8 +74,8 @@ export default function Deck({ deck, onDelete }: DeckProps) {
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-between mt-auto gap-2">
-            <p className="text-sm dark:text-zinc-400 max-sm:text-xs">
+          <div className="flex items-center justify-between mt-auto">
+            <p className="text-sm dark:text-zinc-400 max-sm:text-xs truncate max-w-9/12">
               {deck.folderName}
             </p>
             <p className="text-sm max-sm:text-xs">{deck.cardCount} Cards</p>

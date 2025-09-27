@@ -88,6 +88,7 @@ export default function DeckModal({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Deck Name"
+            showRequiredIndicator
             required
           />
           {errorMessage && (

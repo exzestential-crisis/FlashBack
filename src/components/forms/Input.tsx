@@ -5,12 +5,13 @@ import ClosedEye from "../icons/ClosedEye";
 import OpenEye from "../icons/OpenEye";
 
 interface InputProps {
-  id?: string; // <-- new optional id
+  id?: string;
   type?: "text" | "email" | "password";
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
+  showRequiredIndicator?: boolean; // <-- new prop
   variant?: "plain" | "blue";
   className?: string;
   showPasswordToggle?: boolean;
@@ -24,6 +25,7 @@ export default function Input({
   onChange,
   placeholder,
   required = false,
+  showRequiredIndicator = false, // <-- default false
   variant = "plain",
   className = "",
   showPasswordToggle = false,
@@ -80,7 +82,7 @@ export default function Input({
   return (
     <div className="relative w-full">
       <input
-        id={id} // <-- added here
+        id={id}
         type={inputType}
         value={value}
         onChange={onChange}
@@ -97,7 +99,8 @@ export default function Input({
           .replace(/\s+/g, " ")
           .trim()}
       />
-      {required && (
+
+      {required && showRequiredIndicator && (
         <span className="absolute right-3 top-7 -translate-y-1/2 text-red-500 pointer-events-none text-3xl">
           *
         </span>
