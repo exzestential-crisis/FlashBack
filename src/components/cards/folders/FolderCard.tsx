@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+
 import { getColorVariants } from "@/utils/colorUtils";
 import { useModalStore } from "@/stores/modalStore";
 import type { Folder } from "@/db/tables/folders";
