@@ -34,7 +34,8 @@ export default function PublicHome() {
             {/* Introduction */}
             <div className="flex flex-col items-center justify-center text-center">
               <h2 className="text-base sm:text-lg lg:text-xl mb-6 lg:mb-10 px-4">
-                FlashBack helps you master anything, anytime,
+                FlashBack MAMA nimo flashback helps you master anything,
+                anytime,
                 <br className="hidden sm:block" />
                 one digital card at a time.
               </h2>
