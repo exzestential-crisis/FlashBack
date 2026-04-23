@@ -71,6 +71,7 @@ export default function LightButton({
           <img
             src={typeof img === "string" ? img : img.src}
             className={imgClass}
+            alt=""
           />
         )}
         {text}

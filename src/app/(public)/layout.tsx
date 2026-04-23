@@ -1,9 +1,7 @@
-// src/(private)/layout.tsx
-import { Metadata } from "next";
 import React from "react";
 import Navbar from "@/components/layout/Navbar";
 
-export default function PrivateLayout({
+export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;

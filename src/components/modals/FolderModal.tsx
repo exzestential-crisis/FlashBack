@@ -12,13 +12,11 @@ import { colorData } from "@/utils/colorUtils";
 import { Cross } from "../icons";
 
 interface FolderModalProps {
-  folderId?: string;
   initialData?: Folder;
   onClose?: () => void;
 }
 
 export default function FolderModal({
-  folderId,
   initialData,
   onClose,
 }: FolderModalProps) {

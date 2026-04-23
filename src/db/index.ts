@@ -1,6 +1,5 @@
 //db/index.ts
 
-import { createClient } from "@supabase/supabase-js";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
@@ -10,8 +9,8 @@ const client = postgres(process.env.DATABASE_URL as string, { ssl: "require" });
 // Attach Drizzle to Supabase’s Postgres
 export const db = drizzle(client);
 
-// Optional: Supabase client (for auth, storage, etc.)
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// // Optional: Supabase client (for auth, storage, etc.)
+// export const supabase = createClient(
+//   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// );

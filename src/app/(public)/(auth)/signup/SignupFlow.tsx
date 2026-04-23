@@ -100,7 +100,7 @@ export default function SignupFlow() {
         setForm((prev) => ({ ...prev, ...parsed }));
       }
     }
-  }, []);
+  });
 
   const canContinue = () => {
     if (step === 0) {

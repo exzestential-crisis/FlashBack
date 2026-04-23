@@ -2,13 +2,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabase/client";
 import { useNotifications } from "@/stores/notification";
 
 export default function SignupComplete() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { add: addNotification } = useNotifications();
   const [isProcessing, setIsProcessing] = useState(true);
   const [error, setError] = useState<string | null>(null);

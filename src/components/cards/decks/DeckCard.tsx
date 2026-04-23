@@ -72,7 +72,7 @@ export default function Deck({ deck }: DeckProps) {
             ]}
           />
           <div className="flex items-start justify-between">
-            <div className="w-[90%]">
+            <div className="w-[88%]">
               <h2 className="font-bold text-lg p-0 truncate max-sm:text-base">
                 {deck.name}
               </h2>
@@ -82,7 +82,7 @@ export default function Deck({ deck }: DeckProps) {
             </div>
           </div>
           <div className="flex items-center justify-between mt-auto">
-            <p className="text-sm dark:text-zinc-400 max-sm:text-xs truncate max-w-9/12">
+            <p className="text-sm dark:text-zinc-400 max-sm:text-xs truncate max-w-8/12">
               {deck.folderName}
             </p>
             <p className="text-sm max-sm:text-xs">{deck.cardCount} Cards</p>

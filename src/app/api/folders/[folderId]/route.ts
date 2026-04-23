@@ -25,7 +25,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   context: { params: Promise<{ folderId: string }> }
 ) {
   const { folderId } = await context.params; // ✅ must await
