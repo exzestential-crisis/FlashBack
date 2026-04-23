@@ -43,7 +43,7 @@ export default function Deck({
 
   return (
     <div
-      className="relative h-40 w-60"
+      className="relative h-45 w-60 "
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

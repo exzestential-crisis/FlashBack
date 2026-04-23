@@ -60,7 +60,6 @@ export default function home() {
   const tabs = panels.map((panel) => panel.key);
   const [activeTab, setActiveTab] = useState<string>(tabs[0]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {

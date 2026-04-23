@@ -90,15 +90,20 @@ export default function Login() {
 
   return (
     <div className="relative bg-sky-200 dark:bg-slate-900 min-h-screen w-full">
-      <div className="p-10" onClick={handleBackClick}>
+      {/* Back Button */}
+      <div className="p-4 sm:p-6 md:p-8 lg:p-10" onClick={handleBackClick}>
         <ArrowBack />
       </div>
 
-      {/* Login Form */}
-      <div className="absolute top-1/5 flex flex-col justify-center items-center w-full">
-        <h1 className="text-2xl font-bold mb-5">Login</h1>
+      {/* Login Form Container */}
+      <div className="flex flex-col justify-center items-center w-full px-4 sm:px-6 md:px-8 lg:px-10 pt-8 sm:pt-12 md:pt-16 lg:pt-20">
+        {/* Title */}
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center text-slate-900 dark:text-white">
+          Login
+        </h1>
 
-        <div className="flex flex-col items-center justify-center w-1/6">
+        {/* Form Container */}
+        <div className="w-full max-w-xs sm:max-w-sm">
           <form onKeyDown={handleKeyPress} className="w-full">
             <div className="flex flex-col gap-4 w-full">
               <Input
@@ -122,29 +127,29 @@ export default function Login() {
                 disabled={isLoading}
               />
 
-              <div className="flex justify-center">
+              <div className="flex justify-center mt-2">
                 <AnimatedButton
                   text={isLoading ? "Logging in..." : "Login"}
                   onClick={handleSubmit}
-                  style="w-60"
+                  style="w-full sm:w-60"
                   disabled={isLoading}
                 />
               </div>
             </div>
 
             {/* Social Login */}
-            <div className="w-full">
+            <div className="w-full mt-4">
               <div className="grid grid-cols-7 items-center gap-4 p-4 mt-2 text-black/40 dark:text-zinc-400">
                 <hr className="col-span-3" />
-                <p className="text-center">or</p>
+                <p className="text-center text-sm">or</p>
                 <hr className="col-span-3" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <LightButton
                   text="Facebook"
                   img={Facebook}
-                  imgClass="h-5 rounded-full me-2"
+                  imgClass="h-4 sm:h-5 rounded-full me-2"
                   variant="colored"
                   fullWidth
                   disabled={isLoading}
@@ -153,7 +158,7 @@ export default function Login() {
                 <LightButton
                   text="Google"
                   img={Google}
-                  imgClass="h-5 rounded-full me-2"
+                  imgClass="h-4 sm:h-5 rounded-full me-2"
                   variant="colored"
                   fullWidth
                   disabled={isLoading}
@@ -163,12 +168,13 @@ export default function Login() {
             </div>
           </form>
 
-          <div className="flex flex-col gap-4 text-center mt-4 text-black/40 dark:text-zinc-400 py-4">
-            <p>
+          {/* Terms and Privacy */}
+          <div className="flex flex-col gap-3 sm:gap-4 text-center mt-6 sm:mt-8 text-black/40 dark:text-zinc-400 py-4">
+            <p className="text-xs sm:text-sm leading-relaxed">
               By signing in to FlashBack, you agree to our Terms and Privacy
               Policy.
             </p>
-            <p>
+            <p className="text-xs sm:text-sm leading-relaxed">
               This site is protected by reCAPTCHA Enterprise and the Google
               Privacy Policy and Terms of Service apply.
             </p>

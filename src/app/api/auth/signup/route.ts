@@ -1,93 +1,96 @@
+// app/api/auth/signup/route.ts
+import { createUnauthenticatedSupabaseClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-import { verifyCode } from "@/lib/verification-db";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log("Received request body:", body); // Debug log
+    console.log("Received request body:", body);
 
-    const { username, email, password, code, user_type, interests } = body;
+    const { username, email, password, user_type, interests, code } = body;
 
     console.log("Extracted fields:", {
       username,
       email,
-      password: password ? "[HIDDEN]" : "MISSING",
+      password: "[HIDDEN]",
       code,
       user_type,
       interests,
     });
 
-    if (!username || !email || !password || !code || !user_type) {
+    // Validate required fields
+    if (!username || !email || !password || !user_type) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // Verify the code using database approach
-    const verification = await verifyCode(email, code);
-    if (!verification.isValid) {
-      return NextResponse.json({ error: verification.error }, { status: 400 });
-    }
+    // Use the unauthenticated client for signup
+    const supabase = await createUnauthenticatedSupabaseClient();
 
     // Create account in Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: email.toLowerCase(),
       password,
       options: {
-        emailRedirectTo: undefined,
+        data: {
+          username,
+          user_type,
+          interests: interests || [],
+          code: code || null,
+        },
       },
     });
 
     if (authError) {
-      console.error("Auth error:", authError);
+      console.error("Signup error:", authError);
       return NextResponse.json({ error: authError.message }, { status: 400 });
     }
 
-    if (!authData.user?.id) {
+    // Check if user was created successfully
+    if (!authData.user) {
       return NextResponse.json(
         { error: "Failed to create user account" },
         { status: 500 }
       );
     }
 
-    // Prepare the profile data
-    const profileData = {
-      auth_id: authData.user.id,
-      username: username, // Make sure this is the username, not email
-      email: email.toLowerCase(),
-      user_type: user_type,
-      interests: interests || [],
-      last_login: new Date().toISOString(),
-    };
+    console.log("User created successfully:", authData.user.id);
 
-    // Create user profile
-    const { data: insertedProfile, error: profileError } = await supabase
+    // If you need to insert additional data into a users table, do it here
+    // Example:
+    /*
+    const { error: dbError } = await supabase
       .from("users")
-      .upsert([profileData], { onConflict: "auth_id" })
-      .select()
-      .single();
+      .insert({
+        auth_id: authData.user.id,
+        username,
+        email: email.toLowerCase(),
+        user_type,
+        interests: interests || [],
+        code: code || null,
+        created_at: new Date().toISOString()
+      });
 
-    if (profileError) {
-      console.error("Profile creation error:", profileError);
-      return NextResponse.json(
-        { error: "Failed to create user profile: " + profileError.message },
-        { status: 500 }
-      );
+    if (dbError) {
+      console.error("Database insert error:", dbError);
+      // Note: User is created in auth but not in users table
+      // You might want to handle this case appropriately
     }
+    */
 
-    console.log("Profile created successfully:", insertedProfile); // Debug log
-
-    return NextResponse.json({
-      message: "Account created successfully",
-      user: {
-        id: authData.user.id,
-        email: authData.user.email,
-        profile: insertedProfile,
+    return NextResponse.json(
+      {
+        message: "Account created successfully",
+        user: {
+          id: authData.user.id,
+          email: authData.user.email,
+          username,
+        },
       },
-      session: authData.session,
-    });
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Signup error:", error);
     return NextResponse.json(

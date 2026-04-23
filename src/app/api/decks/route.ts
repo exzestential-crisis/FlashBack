@@ -96,11 +96,10 @@ export const GET = withAuth(async (request, supabase, user, actualUserId) => {
     }
 
     // Transform the data to match your expected format
-    const transformedData =
-      data?.map((deck: { card_count: { count: any }[] }) => ({
-        ...deck,
-        card_count: deck.card_count?.[0]?.count || 0,
-      })) || [];
+    const transformedData = (data || []).map((deck: any) => ({
+      ...deck,
+      card_count: deck.card_count?.[0]?.count || 0,
+    }));
 
     // If sorting by card_count, sort in JavaScript
     if (sortBy === "card_count") {

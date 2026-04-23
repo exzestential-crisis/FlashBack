@@ -27,6 +27,7 @@ export default function AnimatedTabPanel({
             style={{
               transform: `translateX(${x}%)`,
               opacity: i === activeIndex ? 1 : 0,
+              minHeight: "300px", // <-- add this temporarily
             }}
           >
             {panel.content}

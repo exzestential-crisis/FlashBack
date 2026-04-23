@@ -18,7 +18,9 @@ const UpdateDeckSchema = z.object({
 export const GET = withAuth(
   async (request, supabase, user, actualUserId, { params }) => {
     try {
-      const deckId = parseInt(params.deckId);
+      // Await the params object
+      const resolvedParams = await params;
+      const deckId = parseInt(resolvedParams.deckId);
 
       if (isNaN(deckId)) {
         return NextResponse.json({ error: "Invalid deck ID" }, { status: 400 });
@@ -26,7 +28,7 @@ export const GET = withAuth(
 
       console.log("Fetching deck:", { deckId, userId: actualUserId });
 
-      // Query the deck with related data
+      // Rest of your GET logic remains the same...
       const { data, error } = await supabase
         .from("decks")
         .select(
@@ -90,7 +92,9 @@ export const GET = withAuth(
 export const PUT = withAuth(
   async (request, supabase, user, actualUserId, { params }) => {
     try {
-      const deckId = parseInt(params.deckId);
+      // Await the params object
+      const resolvedParams = await params;
+      const deckId = parseInt(resolvedParams.deckId);
 
       if (isNaN(deckId)) {
         return NextResponse.json({ error: "Invalid deck ID" }, { status: 400 });
@@ -222,7 +226,9 @@ export const PUT = withAuth(
 export const DELETE = withAuth(
   async (request, supabase, user, actualUserId, { params }) => {
     try {
-      const deckId = parseInt(params.deckId);
+      // Await the params object
+      const resolvedParams = await params;
+      const deckId = parseInt(resolvedParams.deckId);
 
       if (isNaN(deckId)) {
         return NextResponse.json({ error: "Invalid deck ID" }, { status: 400 });

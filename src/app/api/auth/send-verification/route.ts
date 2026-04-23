@@ -59,15 +59,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if there's already an active verification code
-    if (await hasActiveCode(email)) {
-      return NextResponse.json(
-        {
-          error:
-            "A verification code was already sent. Please wait before requesting a new one.",
-        },
-        { status: 429 }
-      );
-    }
+    // if (await hasActiveCode(email)) {
+    //   return NextResponse.json(
+    //     {
+    //       error:
+    //         "A verification code was already sent. Please wait before requesting a new one.",
+    //     },
+    //     { status: 429 }
+    //   );
+    // }
 
     const code = generateVerificationCode();
     const storeResult = await storeVerificationCode(email, code);

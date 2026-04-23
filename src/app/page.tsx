@@ -1,7 +1,7 @@
 //src/app/page.tsx
 "use client";
 
-import { AnimatedButton, LightButton } from "@/components/ui";
+import { AnimatedButton, LightButton } from "@/components";
 import Nav from "./components/Nav";
 import AuthDebug from "./components/AuthDebug";
 

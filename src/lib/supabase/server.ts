@@ -4,6 +4,37 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
+ * Creates an unauthenticated Supabase server client for public operations like signup
+ * @returns SupabaseClient - Unauthenticated Supabase client
+ */
+export async function createUnauthenticatedSupabaseClient() {
+  const cookieStore = await cookies();
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+      },
+    }
+  );
+}
+
+/**
  * Creates an authenticated Supabase server client
  * @returns Promise<SupabaseClient> - Authenticated Supabase client
  */
@@ -104,7 +135,7 @@ export function withAuth<T = any>(
     supabase: any,
     user: any,
     actualUserId: string,
-    params?: T
+    context: { params: T } // Changed from params?: T to context: { params: T }
   ) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, context?: { params: T }) => {
@@ -121,13 +152,13 @@ export function withAuth<T = any>(
         );
       }
 
-      // Pass params if they exist
+      // Pass the full context object instead of just params
       return await handler(
         request,
         supabase,
         user,
         actualUserId,
-        context?.params
+        context || { params: {} as T } // Changed from context?.params to context || { params: {} as T }
       );
     } catch (error) {
       console.error("Auth wrapper error:", error);
